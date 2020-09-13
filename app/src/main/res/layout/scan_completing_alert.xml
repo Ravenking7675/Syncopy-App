@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white"
+    android:paddingTop="24dp"
+    android:paddingBottom="24dp">
+
+    <TextView
+        android:id="@+id/connect_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Ola! Agent : 7h7hd"
+        android:textColor="@color/text_color"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView220"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins"
+        android:text="Connecting contact"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+    <ProgressBar
+        android:id="@+id/progress4"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/textView220"
+        app:layout_constraintTop_toBottomOf="@+id/progress_overflow" />
+
+    <TextView
+        android:id="@+id/textVi44ew20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins"
+        android:text="Finding user"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textVi33ew20" />
+
+    <ProgressBar
+        android:id="@+id/progress2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/textVi44ew20"
+        app:layout_constraintTop_toBottomOf="@+id/progress1" />
+
+    <TextView
+        android:id="@+id/textView6620"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins"
+        android:text="Checking pre-existing contacts"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textVi44ew20" />
+
+    <ProgressBar
+        android:id="@+id/progress3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintStart_toEndOf="@+id/textView6620"
+        app:layout_constraintTop_toBottomOf="@+id/progress2" />
+
+    <TextView
+        android:id="@+id/textVi33ew20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/poppins"
+        android:text="Checking for code credibility"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/connect_title" />
+
+    <ProgressBar
+        android:id="@+id/progress1"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="34dp"
+        app:layout_constraintStart_toEndOf="@+id/textVi33ew20"
+        app:layout_constraintTop_toBottomOf="@+id/connect_title" />
+
+    <Button
+        android:id="@+id/continueAlertB"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_rounded"
+        android:fontFamily="@font/poppins_medium"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:text="Continue"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView220" />
+    <Button
+        android:id="@+id/retryAlertB"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_rounded"
+        android:fontFamily="@font/poppins_medium"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:text="Retry"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView220" />
+
+    <ImageView
+        android:id="@+id/tick1"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/progress1"
+        app:layout_constraintEnd_toEndOf="@+id/progress1"
+        app:layout_constraintStart_toStartOf="@+id/progress1"
+        app:layout_constraintTop_toTopOf="@+id/progress1"
+        app:srcCompat="@drawable/ic_yes" />
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/tick2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/progress2"
+        app:layout_constraintEnd_toEndOf="@+id/progress2"
+        app:layout_constraintStart_toStartOf="@+id/progress2"
+        app:layout_constraintTop_toTopOf="@+id/progress2"
+        app:srcCompat="@drawable/ic_yes" />
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/tick3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/progress3"
+        app:layout_constraintEnd_toEndOf="@+id/progress3"
+        app:layout_constraintStart_toStartOf="@+id/progress3"
+        app:layout_constraintTop_toTopOf="@+id/progress3"
+        app:srcCompat="@drawable/ic_yes" />
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/tick4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/progress4"
+        app:layout_constraintEnd_toEndOf="@+id/progress4"
+        app:layout_constraintStart_toStartOf="@+id/progress4"
+        app:layout_constraintTop_toTopOf="@+id/progress4"
+        app:srcCompat="@drawable/ic_yes" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins"
+        android:text="Checking for contact overflow"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6620" />
+
+    <ProgressBar
+        android:id="@+id/progress_overflow"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/textView24"
+        app:layout_constraintTop_toBottomOf="@+id/progress3" />
+
+    <ImageView
+        android:id="@+id/tick_overflow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/progress_overflow"
+        app:layout_constraintEnd_toEndOf="@+id/progress_overflow"
+        app:layout_constraintStart_toStartOf="@+id/progress_overflow"
+        app:layout_constraintTop_toTopOf="@+id/progress_overflow"
+        app:srcCompat="@drawable/ic_no" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

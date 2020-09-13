@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "954754426115",
+    "firebase_url": "https://syncopy-project.firebaseio.com",
+    "project_id": "syncopy-project",
+    "storage_bucket": "syncopy-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954754426115:android:6a8ad4062ddada3faaf536",
+        "android_client_info": {
+          "package_name": "com.avinash.syncopyproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954754426115-7o3j7lua32qt6cvemrb4ipteomu9i9ge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpf6G0kuYL9sQRAGhUWvIh9aG2rzyD0OQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954754426115-7o3j7lua32qt6cvemrb4ipteomu9i9ge.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

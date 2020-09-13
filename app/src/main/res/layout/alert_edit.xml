@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/off_white"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/alert_editT"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#00FFFFFF"
+        android:ems="10"
+        android:fontFamily="@font/poppins_light"
+        android:gravity="top"
+        android:inputType="textLongMessage|textMultiLine|textImeMultiLine"
+        android:isScrollContainer="true"
+        android:nestedScrollingEnabled="false"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:scrollIndicators="end"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbarThumbVertical="@drawable/button_blue"
+        android:scrollbars="vertical"
+        android:text="This is the text you want to copy and its pretty easy you know can you design it can you do some simple projects, analyse and compare different protocols. This is the text you want to copy and its pretty easy you know can you design it can you do some simple projects, analyse and compare different protocols.This is the text you want to copy and its pretty easy you know can you design it can you do some simple projects, analyse and compare different protocols. This is the text you want to copy and its pretty easy you know can you design it can you do some simple projects, analyse and compare different protocols."
+        android:textSize="16sp"
+        android:verticalScrollbarPosition="right"
+        app:layout_constraintBottom_toTopOf="@+id/alert_copyB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/alert_copyB"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/button_blue"
+        android:elevation="10dp"
+        android:fontFamily="@font/poppins_medium"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+
+        android:text="Copy"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

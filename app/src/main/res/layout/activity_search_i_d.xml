@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white"
+    tools:context=".SearchIDActivity">
+
+    <Button
+        android:tag="scan"
+        android:id="@+id/scanButton"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="126dp"
+        android:background="@drawable/button_rounded"
+        android:elevation="20dp"
+        android:fontFamily="@font/poppins_medium"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:gravity="center_horizontal|center_vertical"
+        android:paddingTop="8dp"
+        android:shadowColor="@color/colorPrimaryDark"
+        android:text="Open code scanner"
+        android:textAllCaps="false"
+        android:textColor="#282B3B"
+        android:textSize="18sp"
+        android:transitionName="search"
+        app:icon="@drawable/ic_open_scanner"
+        app:iconPadding="0dp"
+        app:iconTint="@color/text_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@color/green" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/continueSearchB"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="126dp"
+        android:background="@drawable/button_rounded"
+        android:elevation="20dp"
+        android:fontFamily="@font/poppins_medium"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:gravity="center_horizontal|center_vertical"
+        android:paddingTop="8dp"
+        android:shadowColor="@color/colorPrimaryDark"
+        android:text="Connect"
+        android:textAllCaps="false"
+        android:textColor="#282B3B"
+        android:textSize="18sp"
+        android:transitionName="search"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@color/green" />
+
+    <ImageView
+        android:id="@+id/cancel_searchI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_cross" />
+
+    <ImageView
+        android:id="@+id/showQRI_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_my_qr_white" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Search User ID"
+        android:textColor="@color/text_color"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cancel_searchI" />
+
+    <EditText
+        android:id="@+id/searchClipT"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/search_box"
+        android:elevation="2dp"
+        android:ems="10"
+        android:fontFamily="@font/poppins_light"
+        android:hint="Enter Clip ID here..."
+        android:inputType="textShortMessage|textNoSuggestions|text"
+        android:paddingStart="50dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="100dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#A6FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:elevation="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/searchClipT"
+        app:layout_constraintStart_toStartOf="@+id/searchClipT"
+        app:layout_constraintTop_toTopOf="@+id/searchClipT"
+        app:srcCompat="@drawable/ic_search" />
+
+    <Button
+        android:id="@+id/searchB_search"
+        android:layout_width="81dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/button_rounded"
+        android:elevation="20dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center_horizontal|center_vertical"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:shadowColor="@color/box_border"
+        android:shadowRadius="50"
+        android:text="Search"
+        android:textAllCaps="false"
+        android:textColor="#282B3B"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/searchClipT"
+        app:layout_constraintEnd_toEndOf="@+id/searchClipT"
+        app:layout_constraintTop_toTopOf="@+id/searchClipT"
+        app:rippleColor="@color/box_border" />
+
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:elevation="40dp"
+        android:visibility="gone"
+        android:id="@+id/search_Shimmer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:shimmer_auto_start="true"
+        app:layout_constraintBottom_toTopOf="@+id/scanButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchClipT">
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+
+        app:srcCompat="@drawable/ic_shimmer" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+    <ImageView
+        android:visibility="visible"
+        android:id="@+id/search_defaultI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:elevation="1dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/scanButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchClipT"
+        app:srcCompat="@drawable/ic_search_image" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/search_overflowI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:elevation="1dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/scanButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchClipT"
+        app:srcCompat="@drawable/ic_contact_overflow" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/search_failI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:elevation="1dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/scanButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchClipT"
+        app:srcCompat="@drawable/ic_oups" />
+
+<!--  RESULT PART  -->
+
+    <ImageView
+        android:id="@+id/search_result_background"
+        android:layout_width="300dp"
+
+        android:layout_height="94dp"
+        android:elevation="40dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/scanButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchClipT"
+        app:srcCompat="@drawable/ic_placeholder_no" />
+
+    <ImageView
+        android:visibility="gone"
+        android:elevation="40dp"
+        android:id="@+id/search_image_I"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/search_result_background"
+        app:layout_constraintStart_toStartOf="@+id/search_result_background"
+        app:layout_constraintTop_toTopOf="@+id/search_result_background"
+        app:layout_constraintVertical_bias="0.519"
+        app:srcCompat="@drawable/ic_fox" />
+
+    <TextView
+        android:visibility="gone"
+        android:elevation="40dp"
+
+        android:id="@+id/search_result_usernameT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="fluffy_no_chill"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/search_image_I"
+        app:layout_constraintTop_toTopOf="@+id/search_result_background" />
+
+    <TextView
+        android:visibility="gone"
+        android:elevation="40dp"
+
+        android:id="@+id/search_result_idT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Clip ID : u2h33h"
+        android:textColor="@color/text_color"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/search_image_I"
+        app:layout_constraintTop_toBottomOf="@+id/search_result_usernameT" />
+
+    <TextView
+        android:visibility="gone"
+        android:elevation="40dp"
+
+        android:id="@+id/alreadyConnectedT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins"
+        android:text="You're already connected with this user"
+        android:textColor="@color/text_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_result_background" />
+</androidx.constraintlayout.widget.ConstraintLayout>

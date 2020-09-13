@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#A2DDFD</color>
+    <color name="colorPrimaryDark">#A2DDFD</color>
+    <color name="colorAccent">#A2DDFD</color>
+    <color name="font_highlight">#A2DDFD</color>
+    <color name="text_color">#444961</color>
+    <color name="dark_background">#292D40</color>
+    <color name="box_border_selected">#54C1FF</color>
+    <color name="box_border">#71ADCE</color>
+    <color name="error_box">#FF8D8D</color>
+    <color name="white">#fff</color>
+    <color name="hint">#51556B</color>
+    <color name="fab_burst">#FBBF00</color>
+    <color name="fab_stealth">#D3DCE7</color>
+    <color name="fab_selective">#A2DDFD</color>
+    <color name="progress_stealth">#A2ABB8</color>
+    <color name="progress_burst">#FBBF00</color>
+    <color name="progress_selective">#83D1FA</color>
+    <color name="green">#94E4D4</color>
+    <color name="off_white">#F6FBFF</color>
+    <color name="card_color_dark">#D3F2FA</color>
+    <color name="card_color_light">#F5FDFF</color>
+</resources>
