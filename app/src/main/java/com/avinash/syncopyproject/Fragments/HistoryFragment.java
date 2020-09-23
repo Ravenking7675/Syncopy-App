@@ -19,7 +19,6 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -80,8 +79,6 @@ public class HistoryFragment extends Fragment {
 
         shimmer.setVisibility(View.VISIBLE);
         shimmer.startShimmer();
-
-        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("clip").child(mAuth.getCurrentUser().getUid());
 
         FirebaseDatabase.getInstance().getReference("clip").child(mAuth.getCurrentUser().getUid()).limitToLast(10)
                 .addValueEventListener(new ValueEventListener() {

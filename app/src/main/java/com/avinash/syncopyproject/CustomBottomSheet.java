@@ -25,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 import static android.view.View.GONE;
 
 public class CustomBottomSheet extends BottomSheetDialogFragment {
@@ -69,6 +71,9 @@ public class CustomBottomSheet extends BottomSheetDialogFragment {
         LinearLayoutManager l = new LinearLayoutManager(getContext());
         l.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(l);
+
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+
 
         doneB.setOnClickListener(new View.OnClickListener() {
             @Override

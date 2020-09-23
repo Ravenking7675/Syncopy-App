@@ -22,7 +22,6 @@ import com.avinash.syncopyproject.CustomBottomSheet;
 import com.avinash.syncopyproject.Fragments.HomeFragment;
 import com.avinash.syncopyproject.MyBounceInterpolator;
 import com.avinash.syncopyproject.R;
-import com.avinash.syncopyproject.Services.AutoService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +37,8 @@ import java.util.Set;
 import static android.content.Context.MODE_PRIVATE;
 import static com.avinash.syncopyproject.Fragments.HomeFragment.SHARED_PREF;
 import static com.avinash.syncopyproject.Services.AutoService.CONNECTION_LIST;
+import static com.avinash.syncopyproject.Services.AutoService.PREV_CLIP;
+import static com.avinash.syncopyproject.Services.AutoService.sharedClip;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
@@ -125,7 +126,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
         String newClip = "";
 
-        String prevClip = sharedPreferences.getString(AutoService.PREV_CLIP, "");
+        String prevClip = sharedPreferences.getString(PREV_CLIP, "");
 
             try {
                 ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -135,11 +136,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                 if(c != null)
                     newClip = c.getItemAt(0).getText().toString().trim();
 
-                if (!prevClip.equals(newClip)) {
-
-                    sharedPreferences.edit().putString(AutoService.PREV_CLIP, newClip).apply();
-                    Log.i(TAG, "listenToClipChange: SENDING >>> : "+newClip);
-                    sendToFirebase(mode, newClip);
+                if (!sharedPreferences.getString(PREV_CLIP, "").equals(newClip) ) {
+                    Log.i(TAG, "Clip is not same");
+                    Log.i(TAG, "Shared Clip : "+sharedClip.getItemAt(0).getText().toString().trim());
+//                    if(!sharedClip.getItemAt(0).getText().toString().trim().equals(newClip)) {
+                        Log.i(TAG, "You created this clip buddy");
+                        sharedPreferences.edit().putString(PREV_CLIP, newClip).apply();
+                        Log.i(TAG, "listenToClipChange: SENDING >>> : " + newClip);
+                        sendToFirebase(mode, newClip);
+//                    }
 //                    new RunInBackground().execute("avinash");
                 }
                 else{

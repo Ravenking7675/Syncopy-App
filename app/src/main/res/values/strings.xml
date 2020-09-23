@@ -11,6 +11,13 @@
     <string name="facebook_app_id">2613086542274891</string>
     <string name="fb_login_protocol_scheme">fb2613086542274891</string>
 
+    <string-array name="browsers">
+
+        <item>"Chromium"</item>
+        <item>"Chrome"</item>
+        <item>"Firefox"</item>
+
+    </string-array>
 
     <string name="hello_world">Hello Square World!</string>
 </resources>

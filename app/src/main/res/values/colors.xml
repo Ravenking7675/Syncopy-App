@@ -11,6 +11,7 @@
     <color name="error_box">#FF8D8D</color>
     <color name="white">#fff</color>
     <color name="hint">#51556B</color>
+    <color name="processing_color">#73909F</color>
     <color name="fab_burst">#FBBF00</color>
     <color name="fab_stealth">#D3DCE7</color>
     <color name="fab_selective">#A2DDFD</color>

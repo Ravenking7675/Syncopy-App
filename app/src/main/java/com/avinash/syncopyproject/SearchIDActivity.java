@@ -1,7 +1,9 @@
 package com.avinash.syncopyproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 
+import com.avinash.syncopyproject.Fragments.HomeFragment;
+import com.avinash.syncopyproject.Model.PcUser;
 import com.avinash.syncopyproject.Model.User;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,7 +28,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
 public class SearchIDActivity extends AppCompatActivity {
+
+    public static final String PREF_PC_USERS = "pc_users";
 
     private static final String TAG = "SearchIDActivity";
     private ImageView cancelI;
@@ -51,6 +62,10 @@ public class SearchIDActivity extends AppCompatActivity {
     private int connectionImage;
     private String connectionShortId;
 
+    private ArrayList<String> pc_connections;
+    private SharedPreferences sharedPreferences;
+
+    private String pc_uuid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +87,10 @@ public class SearchIDActivity extends AppCompatActivity {
         alreadyConnectedT = findViewById(R.id.alreadyConnectedT);
         continueB = findViewById(R.id.continueSearchB);
         overflowI = findViewById(R.id.search_overflowI);
+
+        pc_connections = new ArrayList<>();
+
+        sharedPreferences = getSharedPreferences(HomeFragment.SHARED_PREF, MODE_PRIVATE);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -115,20 +134,22 @@ public class SearchIDActivity extends AppCompatActivity {
                 overflowI.setVisibility(View.GONE);
 
                 searchInFirebase();
-
             }
         });
 
         continueB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                addToFirebase();
+                if(continueB.getTag().equals("android"))
+                    addToFirebase();
+                if(continueB.getTag().equals("pc"))
+                    connectWithPC();
 
             }
         });
 
     }
+
 
     private void searchInFirebase() {
 
@@ -137,9 +158,14 @@ public class SearchIDActivity extends AppCompatActivity {
             searchT.requestFocus();
             searchT.setError("This field can not be empty", ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dot));
         }
-        else if(text.length() != 6){
+        else if(text.length() < 6){
             searchT.requestFocus();
             searchT.setError("Please check the Clip ID again", ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dot));
+        }
+        else if(text.substring(0, 3).equals("pc-") && text.length() == 9) {
+            Log.i(TAG, "searchInFirebase: THIS IS PC ID");
+            pc_uuid = text;
+            searchPCUser(pc_uuid);
         }
         else{
 
@@ -184,6 +210,129 @@ public class SearchIDActivity extends AppCompatActivity {
                 }
             });
         }
+
+    }
+
+    private void connectWithPC() {
+        try {
+            pc_connections = new ArrayList<>(sharedPreferences.getStringSet(PREF_PC_USERS, null));
+            Log.i(TAG, "connectWithPC: INITIAL CONNECTION SIZE : " + pc_connections.size());
+            for(String i : pc_connections){
+                Log.i(TAG, "connectWithPC: CONNECTIONS : "+i);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("user_web").child(pc_uuid);
+        Map<String, Object> map = new HashMap<>();
+        map.put("connectedTo", mAuth.getCurrentUser().getUid());
+        mRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Log.i(TAG, "onComplete: ADDED PC USER SUCCESSFULLY");
+
+                    try{
+                        Log.i(TAG, "UUID : "+pc_uuid);
+                        pc_connections.add(pc_uuid);
+                        sharedPreferences.edit().putStringSet(PREF_PC_USERS, new HashSet<String>(pc_connections)).apply();
+
+                    }catch (Exception e){
+                        //Do something
+                    }
+                    Log.i(TAG, "onComplete: PC CONNECTION SIZE : " + pc_connections.size());
+                    Intent intent = new Intent(SearchIDActivity.this, SyncopyActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Log.i(TAG, "onComplete: FAILED TO ADD PC USER");
+                }
+            }
+        });
+
+    }
+
+
+    private void searchPCUser(String uuid) {
+
+        defaultI.setVisibility(View.GONE);
+        shimmer.setVisibility(View.VISIBLE);
+        shimmer.startShimmer();
+
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("user_web").child(uuid);
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    //Found user
+                    PcUser pcUser = snapshot.getValue(PcUser.class);
+                    if(pcUser != null){
+                        Log.i(TAG, "FOUND PC USER : "+pcUser.getPcName());
+
+                        if(!pcUser.getConnectedTo().equals(mAuth.getCurrentUser().getUid())) {
+
+                            defaultI.setVisibility(View.GONE);
+
+                            shimmer.stopShimmer();
+                            shimmer.setVisibility(View.GONE);
+
+                            searchBackgroundI.setVisibility(View.VISIBLE);
+                            searchProfileI.setVisibility(View.VISIBLE);
+                            searchUsernameT.setVisibility(View.VISIBLE);
+                            searchUUIDT.setVisibility(View.VISIBLE);
+
+                            searchBackgroundI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_placeholder_ok));
+
+                            if(pcUser.getPcName().equals("windows"))
+                                searchProfileI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_windows_logo));
+                            else
+                                searchProfileI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_linux_logo));
+
+                            searchUsernameT.setText(pcUser.getPcName());
+                            searchUUIDT.setText("PC ID : " + pcUser.getUuid());
+
+                            scanB.setVisibility(View.INVISIBLE);
+                            continueB.setVisibility(View.VISIBLE);
+                            continueB.setTag("pc");
+                        }
+                        else{
+
+                            defaultI.setVisibility(View.GONE);
+
+                            shimmer.stopShimmer();
+                            shimmer.setVisibility(View.GONE);
+
+                            searchBackgroundI.setVisibility(View.VISIBLE);
+                            searchProfileI.setVisibility(View.VISIBLE);
+                            searchUsernameT.setVisibility(View.VISIBLE);
+                            searchUUIDT.setVisibility(View.VISIBLE);
+
+                            if(pcUser.getPcName().equals("windows"))
+                                searchProfileI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_windows_logo));
+                            else
+                                searchProfileI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_linux_logo));
+
+                            searchUsernameT.setText(pcUser.getPcName());
+                            searchUUIDT.setText("PC ID : " + pcUser.getUuid());
+
+                            alreadyConnectedT.setVisibility(View.VISIBLE);
+
+                        }
+
+                    }
+                }
+                else{
+                    shimmer.stopShimmer();
+                    shimmer.setVisibility(View.GONE);
+                    failI.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
@@ -244,6 +393,8 @@ public class SearchIDActivity extends AppCompatActivity {
 
                         scanB.setVisibility(View.INVISIBLE);
                         continueB.setVisibility(View.VISIBLE);
+                        continueB.setTag("android");
+
                     }
                 }
 
@@ -271,6 +422,7 @@ public class SearchIDActivity extends AppCompatActivity {
 
                     scanB.setVisibility(View.INVISIBLE);
                     continueB.setVisibility(View.VISIBLE);
+                    continueB.setTag("android");
                 }
 
             }

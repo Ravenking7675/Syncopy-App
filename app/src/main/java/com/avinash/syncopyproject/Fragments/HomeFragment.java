@@ -295,17 +295,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void stopService() {
-        try {
-            Intent serviceIntent = new Intent(getContext(), AutoService.class);
-            getActivity().stopService(serviceIntent);
-            Log.i(TAG, "stopService: STOPED");
-        }
-        catch (Exception e){
-            //Do something
-            Log.i(TAG, "stopService: SOMETHING WENT WRONG");
-        }
-    }
 
     private void setUserDetails() {
 

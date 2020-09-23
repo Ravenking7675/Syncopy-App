@@ -37,9 +37,9 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
 
     public static final String SELECTIVE_CONTACTS = "selective contacts";
 
-    private Set<String> selective_set;
+    private Set<String> selective_set = new HashSet<>();
     private SharedPreferences sharedPreferences;
-
+    private ArrayList<String> useless = new ArrayList<>();
     private static final String TAG = "BottomSheetAdapter";
     private Context mContext;
     private ArrayList<String> connections;
@@ -55,7 +55,7 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
 
         try{
             sharedPreferences = mContext.getSharedPreferences(HomeFragment.SHARED_PREF, Context.MODE_PRIVATE);
-            selective_set = sharedPreferences.getStringSet(SELECTIVE_CONTACTS, new HashSet<>(connections));
+            selective_set = sharedPreferences.getStringSet(SELECTIVE_CONTACTS, new HashSet<>(useless));
             selective_set.add(mAuth.getCurrentUser().getUid());
         } catch (Exception e){
             //Do something

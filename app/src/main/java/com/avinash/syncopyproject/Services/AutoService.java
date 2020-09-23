@@ -47,6 +47,7 @@ public class AutoService extends Service {
 
     private int mode = 2;
     private boolean auto_manual = false;
+    public static ClipData sharedClip;
 
     private HashSet<String> connection_set = new HashSet<>();;
     private HashSet<String> default_set = new HashSet<>();
@@ -181,11 +182,15 @@ public class AutoService extends Service {
                         ClipData c = clipboard.getPrimaryClip();
 
                         newClip = c.getItemAt(0).getText().toString().trim();
-                        if (!prevClip.equals(newClip)) {
-                            prevClip = newClip;
-                            sharedPreferences.edit().putString(PREV_CLIP, newClip).apply();
-                            Log.i(TAG, "listenToClipChange: SENDING >>> : " + newClip);
-                        sendToFirebase( newClip);
+                        if (!sharedPreferences.getString(PREV_CLIP, "").equals(newClip)) {
+
+//                            if(!sharedClip.getItemAt(0).getText().toString().trim().equals(newClip)) {
+                                Log.i(TAG, "listenToClipChange: YOU CREATED THIS CLIP BUDDY");
+//                                prevClip = newClip;
+                                sharedPreferences.edit().putString(PREV_CLIP, newClip).apply();
+                                Log.i(TAG, "listenToClipChange: SENDING >>> : " + newClip);
+                                sendToFirebase(newClip);
+//                            }
                         }
 
 
@@ -197,7 +202,7 @@ public class AutoService extends Service {
         }
 
     private void listenClipsFromOtherContacts() {
-
+        final SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         FirebaseDatabase.getInstance().getReference("clip").child(mAuth.getCurrentUser().getUid()).limitToLast(1)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -216,9 +221,16 @@ public class AutoService extends Service {
                                         Log.i(TAG, "GOT CLIP : " + history.getClip());
 
                                         if (history.getClip() !=null) {
+
                                             Log.i(TAG, "COPYING TO CLIPBOARD");
-                                            ClipData clip = ClipData.newPlainText(null, history.getClip());
-                                            clipboard.setPrimaryClip(clip);
+                                            sharedClip = ClipData.newPlainText(null, history.getClip());
+                                            clipboard.setPrimaryClip(sharedClip);
+                                            try {
+                                                sharedPreferences.edit().putString(PREV_CLIP, history.getClip()).apply();
+                                            }
+                                            catch (Exception e){
+                                                Log.i(TAG, "FAILED TO UPDATE SHARED PREF");
+                                            }
                                         }
                                         else{
                                             Log.i(TAG, "CLIP IS SAME SO NOT COPYING");
@@ -268,7 +280,7 @@ public class AutoService extends Service {
             if (mode == 1 || mode == 2) {
 
                 Log.i(TAG, "SHARED PREF DATA : "+getApplicationContext().getSharedPreferences(SHARED_PREF, MODE_PRIVATE).getStringSet(CONNECTION_LIST, connection_set).size());
-
+                Log.i(TAG, "SHARED PREF DATA AS STRING : "+getApplicationContext().getSharedPreferences(SHARED_PREF, MODE_PRIVATE).getStringSet(CONNECTION_LIST, connection_set).toString());
                 for (final String userID : getApplicationContext().getSharedPreferences(SHARED_PREF, MODE_PRIVATE).getStringSet(CONNECTION_LIST, connection_set)) {
                     Log.i(TAG, "SHARED PREF SIZE : "+getApplicationContext().getSharedPreferences(SHARED_PREF, MODE_PRIVATE).getStringSet(CONNECTION_LIST, connection_set).size());
                     DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("clip").child(userID);

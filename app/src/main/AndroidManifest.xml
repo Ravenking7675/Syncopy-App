@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.CAMERA " />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <uses-feature
         android:name="android.hardware.camera.autofocus"
@@ -15,10 +18,18 @@
         android:name=".NotificationChannelCreator"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SearchIDActivity"></activity>
+        <activity android:name=".AddCommandActivity"></activity>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <activity android:name=".ScreenshotActivity" />
+        <activity android:name=".SearchIDActivity" />
         <activity android:name=".MyQRActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".SyncopyActivity" />
