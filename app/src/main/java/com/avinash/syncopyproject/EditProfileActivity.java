@@ -10,13 +10,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -26,6 +27,7 @@ import com.avinash.syncopyproject.Adapters.EditTextAdapter;
 import com.avinash.syncopyproject.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -56,6 +58,14 @@ public class EditProfileActivity extends AppCompatActivity {
         charNameT = findViewById(R.id.characterNameT);
         continueB = findViewById(R.id.continueAlertB);
         usernameT = findViewById(R.id.usernameT);
+
+        final ConstraintLayout con = findViewById(R.id.snack_bar_edit_profile);
+        con.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(con);
+            }
+        });
 
         profile_images.add(R.drawable.no_item);
         profile_images.add(R.drawable.ic_bird);
@@ -164,6 +174,17 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
+    private void hideKeyboard(View v){
+
+        try {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+    }
+
     private void saveUserInfo() {
 
         String username = usernameT.getText().toString().trim();
@@ -190,7 +211,11 @@ public class EditProfileActivity extends AppCompatActivity {
                                 updateUI();
                             } else {
                                 dialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Something went wrong, try again", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "Something went wrong, try again", Toast.LENGTH_SHORT).show();
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.snack_bar_edit_profile), "Something went wrong, try again", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.text_color));
+                                snackbar.show();
                             }
                         }
                     });

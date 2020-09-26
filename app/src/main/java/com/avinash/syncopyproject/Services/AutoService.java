@@ -1,6 +1,7 @@
 package com.avinash.syncopyproject.Services;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ClipData;
@@ -74,8 +75,11 @@ public class AutoService extends Service {
     }
 
     private void collectConnectionData() {
-        connection_set.add(mAuth.getCurrentUser().getUid());
-
+        try {
+            connection_set.add(mAuth.getCurrentUser().getUid());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("contact").child(mAuth.getCurrentUser().getUid());
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -83,7 +87,11 @@ public class AutoService extends Service {
 
                 connection_set.clear();
                 connection_set = new HashSet<>();
-                connection_set.add(mAuth.getCurrentUser().getUid());
+                try {
+                    connection_set.add(mAuth.getCurrentUser().getUid());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 SharedPreferences.Editor sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREF, MODE_PRIVATE).edit();
 
                 if(snapshot.exists()) {
@@ -203,56 +211,57 @@ public class AutoService extends Service {
 
     private void listenClipsFromOtherContacts() {
         final SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
-        FirebaseDatabase.getInstance().getReference("clip").child(mAuth.getCurrentUser().getUid()).limitToLast(1)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        try {
+            FirebaseDatabase.getInstance().getReference("clip").child(mAuth.getCurrentUser().getUid()).limitToLast(1)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        if(snapshot.exists()) {
+                            if (snapshot.exists()) {
 
-                            for (DataSnapshot s : snapshot.getChildren()) {
-                                History history = s.getValue(History.class);
-                                if (history != null) {
+                                for (DataSnapshot s : snapshot.getChildren()) {
+                                    History history = s.getValue(History.class);
+                                    if (history != null) {
 
-                                    try {
+                                        try {
 
-                                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
-                                        Log.i(TAG, "GOT CLIP : " + history.getClip());
+                                            Log.i(TAG, "GOT CLIP : " + history.getClip());
 
-                                        if (history.getClip() !=null) {
+                                            if (history.getClip() != null) {
 
-                                            Log.i(TAG, "COPYING TO CLIPBOARD");
-                                            sharedClip = ClipData.newPlainText(null, history.getClip());
-                                            clipboard.setPrimaryClip(sharedClip);
-                                            try {
-                                                sharedPreferences.edit().putString(PREV_CLIP, history.getClip()).apply();
+                                                Log.i(TAG, "COPYING TO CLIPBOARD");
+                                                sharedClip = ClipData.newPlainText(null, history.getClip());
+                                                clipboard.setPrimaryClip(sharedClip);
+                                                try {
+                                                    sharedPreferences.edit().putString(PREV_CLIP, history.getClip()).apply();
+                                                } catch (Exception e) {
+                                                    Log.i(TAG, "FAILED TO UPDATE SHARED PREF");
+                                                }
+                                            } else {
+                                                Log.i(TAG, "CLIP IS SAME SO NOT COPYING");
                                             }
-                                            catch (Exception e){
-                                                Log.i(TAG, "FAILED TO UPDATE SHARED PREF");
-                                            }
-                                        }
-                                        else{
-                                            Log.i(TAG, "CLIP IS SAME SO NOT COPYING");
+
+                                        } catch (Exception e) {
+                                            //Do something
+                                            Log.i(TAG, "CLIP DATA ERROR");
                                         }
 
-                                    } catch (Exception e) {
-                                        //Do something
-                                        Log.i(TAG, "CLIP DATA ERROR");
                                     }
-
                                 }
                             }
+
                         }
 
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
+                        }
+                    });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -290,8 +299,12 @@ public class AutoService extends Service {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Log.i(TAG, "onComplete: SUCCESSFULLY SENT");
-                                if(userID.equals(mAuth.getCurrentUser().getUid()))
-                                    Toast.makeText(AutoService.this, "clip send successfully", Toast.LENGTH_SHORT).show();
+                                try {
+                                    if (userID.equals(mAuth.getCurrentUser().getUid()))
+                                        Toast.makeText(AutoService.this, "clip send successfully", Toast.LENGTH_SHORT).show();
+                                }catch (NullPointerException e){
+                                    e.printStackTrace();
+                                }
                             } else {
                                 Log.i(TAG, "FAILED TO SEND CLIP : " + task.getException());
                             }
@@ -312,8 +325,12 @@ public class AutoService extends Service {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Log.i(TAG, "onComplete: SUCCESSFULLY SENT");
-                                if(userID.equals(mAuth.getCurrentUser().getUid()))
-                                    Toast.makeText(getApplicationContext(), "clip send successfully", Toast.LENGTH_SHORT).show();
+                                try {
+                                    if (userID.equals(mAuth.getCurrentUser().getUid()))
+                                        Toast.makeText(getApplicationContext(), "clip send successfully", Toast.LENGTH_SHORT).show();
+                                }catch (NullPointerException e){
+                                    e.printStackTrace();
+                                }
                             } else {
                                 Log.i(TAG, "FAILED TO SEND CLIP : " + task.getException());
                             }
@@ -342,6 +359,9 @@ public class AutoService extends Service {
                 .setSmallIcon(icon)
                 .setColor(getResources().getColor(color))
                 .setContentIntent(pendingIntent)
+                .setVibrate(null)
+                .setSound(null)
+                .setPriority(NotificationManager.IMPORTANCE_LOW)
                 .build();
 
         synchronized (notification){

@@ -6,7 +6,14 @@
     android:background="@color/off_white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.ProfileFragment">
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#484D67"
+        android:elevation="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -30,8 +37,10 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="64dp"
+                android:clickable="true"
                 android:elevation="10dp"
-
+                android:foreground="?attr/selectableItemBackground"
+                android:tooltipText="QR Code"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,8 +51,10 @@
                 android:layout_marginTop="72dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/button_rounded"
+                android:clickable="true"
                 android:elevation="20dp"
                 android:fontFamily="@font/poppins_semibold"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center_horizontal|center_vertical"
                 android:paddingLeft="0dp"
                 android:paddingTop="0dp"
@@ -56,6 +67,7 @@
                 android:textAllCaps="false"
                 android:textColor="#282B3B"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:rippleColor="@color/dark_background" />
@@ -95,7 +107,8 @@
                 android:layout_marginTop="4dp"
                 android:elevation="10dp"
                 android:fontFamily="@font/poppins_semibold"
-
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/textView20"
@@ -153,10 +166,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_profile_border"
+                android:tooltipText="QR Code"
                 app:layout_constraintBottom_toBottomOf="@+id/profilePhotoI"
                 app:layout_constraintEnd_toEndOf="@+id/profilePhotoI"
                 app:layout_constraintStart_toStartOf="@+id/profilePhotoI"
                 app:layout_constraintTop_toTopOf="@+id/profilePhotoI" />
+
+            <ImageView
+                android:id="@+id/logout_gradientI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="24dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@drawable/ic_logout_profile_gradient"
+                android:tooltipText="Logout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

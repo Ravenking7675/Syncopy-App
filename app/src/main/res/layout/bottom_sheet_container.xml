@@ -9,7 +9,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
@@ -28,6 +29,8 @@
             android:id="@+id/bottom_sheet_constrain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
             android:background="@color/card_color_dark">
 
 
@@ -88,7 +91,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:fontFamily="@font/poppins_semibold"
-
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
                 android:textColor="@color/box_border"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView25"

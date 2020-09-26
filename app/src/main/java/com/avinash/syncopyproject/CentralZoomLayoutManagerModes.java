@@ -23,29 +23,34 @@ public class CentralZoomLayoutManagerModes extends LinearLayoutManager {
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
         int orientation = getOrientation();
-        if (orientation == HORIZONTAL) {
-            int scrolled = super.scrollHorizontallyBy(dx, recycler, state);
 
-            float midpoint = getWidth() / 2.f;
-            float d0 = 0.f;
-            float d1 = mShrinkDistance * midpoint;
-            float s0 = 1.f;
-            float s1 = 1.f - mShrinkAmount;
-            for (int i = 0; i < getChildCount(); i++) {
-                View child = getChildAt(i);
+            if (orientation == HORIZONTAL) {
+                int scrolled = super.scrollHorizontallyBy(dx, recycler, state);
+
+                float midpoint = getWidth() / 2.f;
+                float d0 = 0.f;
+                float d1 = mShrinkDistance * midpoint;
+                float s0 = 1.f;
+                float s1 = 1.f - mShrinkAmount;
+                for (int i = 0; i < getChildCount(); i++) {
+                    View child = getChildAt(i);
 //                    float childMidpoint =
 //                            (getDecoratedRight(child) + getDecoratedLeft(child)) / 2.f;
-                childMidPoint = child.getX() + child.getWidth() / 2.0f;
+                    childMidPoint = child.getX() + child.getWidth() / 2.0f;
 
-                float d = Math.min(d1, Math.abs(midpoint - childMidPoint));
-                float scale = s0 + (s1 - s0) * (d - d0) / (d1 - d0);
-                child.setScaleX(scale);
-                child.setScaleY(scale);
+                    float d = Math.min(d1, Math.abs(midpoint - childMidPoint));
+                    float scale = s0 + (s1 - s0) * (d - d0) / (d1 - d0);
+                    try {
+                        child.setScaleX(scale);
+                        child.setScaleY(scale);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                return scrolled;
+            } else {
+                return 0;
             }
-            return scrolled;
-        } else {
-            return 0;
-        }
 
     }
 
@@ -58,21 +63,24 @@ public class CentralZoomLayoutManagerModes extends LinearLayoutManager {
         int orientation = getOrientation();
         if (orientation == HORIZONTAL) {
 
-
-            float midpoint = getWidth() / 2.f;
-            float d0 = 0.f;
-            float d1 = mShrinkDistance * midpoint;
-            float s0 = 1.f;
-            float s1 = 1.f - mShrinkAmount;
-            for (int i = 0; i < getChildCount(); i++) {
-                View child = getChildAt(i);
+            try {
+                float midpoint = getWidth() / 2.f;
+                float d0 = 0.f;
+                float d1 = mShrinkDistance * midpoint;
+                float s0 = 1.f;
+                float s1 = 1.f - mShrinkAmount;
+                for (int i = 0; i < getChildCount(); i++) {
+                    View child = getChildAt(i);
 //                    float childMidpoint =
 //                            (getDecoratedRight(child) + getDecoratedLeft(child)) / 2.f;
-                childMidPoint = child.getX() + child.getWidth() / 2.0f;
-                float d = Math.min(d1, Math.abs(midpoint - childMidPoint));
-                float scale = s0 + (s1 - s0) * (d - d0) / (d1 - d0);
-                child.setScaleX(scale);
-                child.setScaleY(scale);
+                    childMidPoint = child.getX() + child.getWidth() / 2.0f;
+                    float d = Math.min(d1, Math.abs(midpoint - childMidPoint));
+                    float scale = s0 + (s1 - s0) * (d - d0) / (d1 - d0);
+                    child.setScaleX(scale);
+                    child.setScaleY(scale);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
 
         } else {

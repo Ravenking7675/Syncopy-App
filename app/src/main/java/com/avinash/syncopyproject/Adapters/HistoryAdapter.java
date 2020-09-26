@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -265,7 +266,13 @@ public class HistoryAdapter  extends RecyclerView.Adapter<HistoryAdapter.ViewHol
         dialog_delete = builder
                 .setCancelable(false)
                 .create();
+//        dialog_delete.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         dialog_delete.show();
+
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog_delete.getWindow().getAttributes());
+        dialog_delete.getWindow().setAttributes(layoutParams);
     }
 
     private void deleteFromFirebase(final long time){

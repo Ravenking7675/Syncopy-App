@@ -22,4 +22,6 @@
     <color name="off_white">#F6FBFF</color>
     <color name="card_color_dark">#D3F2FA</color>
     <color name="card_color_light">#F5FDFF</color>
+    <color name="link_color">#008BD9</color>
+    <color name="splash_screen">#3A3F57</color>
 </resources>

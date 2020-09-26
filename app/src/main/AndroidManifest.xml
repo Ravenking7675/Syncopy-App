@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.CAMERA " />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-feature
         android:name="android.hardware.camera.autofocus"
@@ -16,37 +16,63 @@
 
     <application
         android:name=".NotificationChannelCreator"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/syncopy_logo"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/syncopy_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddCommandActivity"></activity>
+        <activity android:name=".WebViewActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".GithubRepoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AboutCreatorActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AboutAppActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ConnectionDocsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AddCommandActivity"
+            android:screenOrientation="portrait"/>
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".ScreenshotActivity" />
-        <activity android:name=".SearchIDActivity" />
-        <activity android:name=".MyQRActivity" />
-        <activity android:name=".ScanActivity" />
-        <activity android:name=".SyncopyActivity" />
-        <activity
-            android:name=".WelcomeScreen"
-            android:label="WELCOME">
+        <activity android:name=".ScreenshotActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SearchIDActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MyQRActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ScanActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SyncopyActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".SplashScreen"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme"
+            android:label="Syncopé">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SignupActivity" />
+
+        <activity
+            android:name=".WelcomeScreen"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SignupActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".EditProfileActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="preloaded_fonts"

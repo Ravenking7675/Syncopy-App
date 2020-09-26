@@ -271,7 +271,7 @@ public class HomeFragment extends Fragment {
 
                 }
                 catch (NullPointerException e){
-                    //Do something
+                    e.printStackTrace();
                 }
             }
         });

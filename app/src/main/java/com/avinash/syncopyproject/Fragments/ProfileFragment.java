@@ -18,20 +18,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.avinash.syncopyproject.Adapters.ProfileAdapter;
-import com.avinash.syncopyproject.LoginActivity;
+import com.avinash.syncopyproject.BottomSheetProfile;
 import com.avinash.syncopyproject.MyQRActivity;
 import com.avinash.syncopyproject.R;
-import com.facebook.login.LoginManager;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,6 +65,8 @@ public class ProfileFragment extends Fragment {
     private ClipboardManager clipboard;
     private Dialog dialog;
 
+    private ImageView logoutI;
+
     private Boolean isCancellable = true;
 
     public ProfileFragment() {
@@ -95,7 +92,7 @@ public class ProfileFragment extends Fragment {
         logoutB = view.findViewById(R.id.profile_logoutB);
         profile_connection_count = view.findViewById(R.id.profile_connection_countT);
         progressBar.setMax(6);
-
+        logoutI = view.findViewById(R.id.logout_gradientI);
         mAuth = FirebaseAuth.getInstance();
 
         searchConnections();
@@ -115,14 +112,27 @@ public class ProfileFragment extends Fragment {
         ReboundRecycler.init(recyclerView);
         OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
-        logoutB.setOnClickListener(new View.OnClickListener() {
+        logoutI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                showAlertDialog();
-
+                try {
+                    BottomSheetProfile bottomSheet = new BottomSheetProfile();
+                    bottomSheet.isCancelable();
+                    bottomSheet.show(getFragmentManager(), "exampleBottomSheet");
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
             }
         });
+
+//        logoutB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                showAlertDialog();
+//
+//            }
+//        });
 
         profileI.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,92 +160,92 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    public void showAlertDialog()
-    {
-
-
-        // Create an alert builder
-        AlertDialog.Builder builder
-                = new AlertDialog.Builder(getContext());
-
-        // set the custom layout
-        final View customLayout
-                = getLayoutInflater()
-                .inflate(
-                        R.layout.logout_alert,
-                        null);
-        builder.setView(customLayout);
-
-        customLayout.findViewById(R.id.logout_alert_noI).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isCancellable)
-                    dialog.dismiss();
-            }
-        });
-
-        customLayout.findViewById(R.id.logout_alert_yesI).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isCancellable = false;
-                customLayout.findViewById(R.id.logout_showRemovingL).setVisibility(View.VISIBLE);
-                logoutUser();
-            }
-        });
-
-        // create and show
-        // the alert dialog
-        dialog = builder
-                .setCancelable(false)
-                .create();
-        dialog.show();
-    }
-
-    private void logoutUser() {
-
-
-        try {
-            getContext().getSharedPreferences(HomeFragment.SHARED_PREF, Context.MODE_PRIVATE).edit().clear().apply();
-
-            Log.i(TAG, "logoutUser: LOGGING OUT");
-
-            //firebase logout
-            FirebaseAuth.getInstance().signOut();
-            Log.i(TAG, "logoutUser: FIREBASE LOGOUT DONE");
-            //facebook logout
-            try {
-                if(LoginManager.getInstance() != null) {
-                    LoginManager.getInstance().logOut();
-                    Log.i(TAG, "logoutUser: FACEBOOK LOGOUT DONE");
-                }
-            }catch (Exception e){
-                //Do something
-                e.printStackTrace();
-            }
-
-            //google logout
-            try {
-                GoogleSignInOptions gso = new GoogleSignInOptions
-                        .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
-                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
-                googleSignInClient.signOut();
-                Log.i(TAG, "logoutUser: GOOGLE LOGOUT DONE");
-            }
-            catch (Exception e){
-
-                //Do something
-                e.printStackTrace();
-            }
-
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            startActivity(intent);
-
-        }catch (NullPointerException e){
-            //Do something
-            e.printStackTrace();
-        }
-
-    }
+//    public void showAlertDialog()
+//    {
+//
+//
+//        // Create an alert builder
+//        AlertDialog.Builder builder
+//                = new AlertDialog.Builder(getContext());
+//
+//        // set the custom layout
+//        final View customLayout
+//                = getLayoutInflater()
+//                .inflate(
+//                        R.layout.logout_alert,
+//                        null);
+//        builder.setView(customLayout);
+//
+//        customLayout.findViewById(R.id.logout_alert_noI).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(isCancellable)
+//                    dialog.dismiss();
+//            }
+//        });
+//
+//        customLayout.findViewById(R.id.logout_alert_yesI).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                isCancellable = false;
+//                customLayout.findViewById(R.id.logout_showRemovingL).setVisibility(View.VISIBLE);
+//                logoutUser();
+//            }
+//        });
+//
+//        // create and show
+//        // the alert dialog
+//        dialog = builder
+//                .setCancelable(false)
+//                .create();
+//        dialog.show();
+//    }
+//
+//    private void logoutUser() {
+//
+//
+//        try {
+//            getContext().getSharedPreferences(HomeFragment.SHARED_PREF, Context.MODE_PRIVATE).edit().clear().apply();
+//
+//            Log.i(TAG, "logoutUser: LOGGING OUT");
+//
+//            //firebase logout
+//            FirebaseAuth.getInstance().signOut();
+//            Log.i(TAG, "logoutUser: FIREBASE LOGOUT DONE");
+//            //facebook logout
+//            try {
+//                if(LoginManager.getInstance() != null) {
+//                    LoginManager.getInstance().logOut();
+//                    Log.i(TAG, "logoutUser: FACEBOOK LOGOUT DONE");
+//                }
+//            }catch (Exception e){
+//                //Do something
+//                e.printStackTrace();
+//            }
+//
+//            //google logout
+//            try {
+//                GoogleSignInOptions gso = new GoogleSignInOptions
+//                        .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+//                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+//                googleSignInClient.signOut();
+//                Log.i(TAG, "logoutUser: GOOGLE LOGOUT DONE");
+//            }
+//            catch (Exception e){
+//
+//                //Do something
+//                e.printStackTrace();
+//            }
+//
+//            Intent intent = new Intent(getContext(), LoginActivity.class);
+//            startActivity(intent);
+//
+//        }catch (NullPointerException e){
+//            //Do something
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 
     private void updateUserInfo() {

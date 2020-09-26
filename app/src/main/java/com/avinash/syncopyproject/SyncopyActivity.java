@@ -22,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SyncopyActivity extends AppCompatActivity {
 
+    public static final String FRAGMENT_NO ="fragment_number";
     public static final String USERID = "userid";
     public static ImageView homeI;
     public static ImageView connectI;
@@ -45,7 +46,53 @@ public class SyncopyActivity extends AppCompatActivity {
         final Fragment fragment_history = new HistoryFragment();
         final Fragment fragment_profile = new ProfileFragment();
 
-        switchToFragment(fragment_home);
+//        switchToFragment(fragment_home);
+
+        try{
+            //take intent and send to appropriate fragment
+            //1->Home 2->Connection 3->History 4->Profile
+
+            int fragment_no = getIntent().getExtras().getInt(FRAGMENT_NO);
+            if(fragment_no == 1) {
+                switchToFragment(fragment_home);
+                fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.fab_selective)));
+
+                homeI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_home_icon_selected));
+                connectI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_connect_icon));
+                historyI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_history_icon));
+                profileI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_profile_icon));
+                fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.fab_selective)));
+
+            }else if(fragment_no == 2) {
+                switchToFragment(fragment_connect);
+                fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.fab_selective)));
+
+                homeI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_home_icon));
+                connectI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_connect_icon_selected));
+                historyI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_history_icon));
+                profileI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_profile_icon));
+                fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.fab_selective)));
+            }else if(fragment_no == 4) {
+                switchToFragment(fragment_profile);
+                fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.fab_selective)));
+
+                homeI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_home_icon));
+                connectI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_connect_icon));
+                historyI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_history_icon));
+                profileI.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_profile_icon_selected));
+                fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.fab_selective)));
+            }
+            else
+                switchToFragment(fragment_home);
+
+        }catch (Exception e){
+            switchToFragment(fragment_home);
+            e.printStackTrace();
+        }
+//
+//        switchToFragment(fragment_home);
+
+
 
         homeI.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +177,7 @@ public class SyncopyActivity extends AppCompatActivity {
             getSupportFragmentManager().popBackStack();
         } else if (!doubleBackToExitPressedOnce) {
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this,"Please click BACK again to exit.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Please press back again to exit.", Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {
 

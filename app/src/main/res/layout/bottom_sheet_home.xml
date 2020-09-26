@@ -72,6 +72,8 @@
         android:paddingBottom="0dp"
         android:shadowColor="@color/text_color"
         android:text="Done"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"
         android:textAllCaps="false"
         android:textColor="@color/hint"
         android:textSize="18sp"

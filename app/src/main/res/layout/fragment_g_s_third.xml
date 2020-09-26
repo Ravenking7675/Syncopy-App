@@ -40,7 +40,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="28dp"
         android:fontFamily="@font/poppins_light"
-        android:text="All this happens in blink of an eye, we assure lightning fast data delievery, So now just sit back and have fun with Syncopy!"
+        android:text="All this happens in blink of an eye, we assure lightning fast data delievery, So now just sit back and have fun with Syncopé!"
         android:textAlignment="center"
         android:textColor="@color/text_color"
         android:textSize="15sp"

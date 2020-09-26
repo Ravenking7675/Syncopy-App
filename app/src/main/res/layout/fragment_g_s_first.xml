@@ -42,7 +42,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="28dp"
         android:fontFamily="@font/poppins_light"
-        android:text="With syncopy you can synchnorise upto 6 devices over the internet, no more tagging along all your devices with you just to keep them synchronised."
+        android:text="With Syncopé you can synchnorise upto 6 devices over the internet, no more tagging along all your devices with you just to keep them synchronised."
         android:textAlignment="center"
         android:textColor="@color/text_color"
         android:textSize="15sp"

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Syncopy Project</string>
+    <string name="app_name">Syncopé</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">LoginActivity</string>
@@ -18,6 +18,51 @@
         <item>"Firefox"</item>
 
     </string-array>
+
+    <string name="docs">"<u>docs</u>"</string>
+    <string name="connection_url">"<u>this link</u>"</string>
+
+    <string name="docs_url1">"<u>What is a connection in Syncopé?</u>"</string>
+    <string name="docs_url2">"<u>How to add a connection?</u>"</string>
+    <string name="docs_url3">"<u>How to remove a connection?</u>"</string>
+    <string name="docs_url4">"<u>How many connections can be made?</u>"</string>
+    <string name="docs_url5">"<u>How does screenshot feature work?</u>"</string>
+    <string name="docs_url6">"<u>Screenshot taking too long to arrive.</u>"</string>
+    <string name="docs_url7">"<u>What is this {command} thing?</u>"</string>
+    <string name="docs_url8">"<u>How to write a command?</u>"</string>
+    <string name="docs_url9">"<u>How to execute a command?</u>"</string>
+    <string name="docs_url10">"<u>What is the Link section?</u>"</string>
+    <string name="docs_url11">"<u>What are the errors I am seeing?</u>"</string>
+    <string name="docs_url12">"<u>Some additional tips for you!</u>"</string>
+
+    <string name="app_url1">"<u>What is Syncopé?</u>"</string>
+    <string name="app_url2">"<u>What is Stealth, Burst and Selective mode?</u>"</string>
+    <string name="app_url3">"<u>What is Auto and Manual mode?</u>"</string>
+    <string name="app_url4">"<u>How to add a contact?</u>"</string>
+    <string name="app_url5">"<u>How to remove a contact?</u>"</string>
+    <string name="app_url6">"<u>What is n/6 in profile section?</u>"</string>
+
+    <string name="modes">"We provide you three modes to sync your clips
+between devices.
+        \n<b>Stealth Mode :</b>
+Your clipboard history will not be saved in any
+of your connected devices including yours.
+And your clips will be sent to every contact.\n
+
+\n<b>Burst Mode :</b>
+Your clips will be sent to every contact and
+history will be saved everywhere.\n
+
+\n<b>Selective Mode :</b>
+
+You select the contacts to send the clips by
+holding the selective button and choosing
+respective contacts from the bottom sheet.\n"</string>
+
+    <string name="android_link">"<u>Android app code.</u>"</string>
+
+    <string name="python_link">"<u>Python desktop app code.</u>"</string>
+
 
     <string name="hello_world">Hello Square World!</string>
 </resources>

@@ -134,6 +134,7 @@ public class HistoryFragment extends Fragment {
 
     }
 
+
     private void addToRecyclerView() {
         shimmer.stopShimmer();
         shimmer.setVisibility(View.GONE);

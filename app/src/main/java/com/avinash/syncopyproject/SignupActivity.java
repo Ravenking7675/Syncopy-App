@@ -1,6 +1,7 @@
 package com.avinash.syncopyproject;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -8,6 +9,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,13 +31,21 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
@@ -74,7 +84,12 @@ public class SignupActivity extends AppCompatActivity {
         passwordT = findViewById(R.id.passwordSignupT);
         rePasswordT = findViewById(R.id.passwordRetypeSignupT);
 
-
+        signupLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(signupLayout);
+            }
+        });
 
         //Google Login
         mAuth = FirebaseAuth.getInstance();
@@ -111,6 +126,7 @@ public class SignupActivity extends AppCompatActivity {
         signInB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(signInB);
                 signInUser();
 
             }
@@ -257,6 +273,56 @@ public class SignupActivity extends AppCompatActivity {
                             updateUI("", user.getUid());
                         }
                         else {
+                            try {
+                                throw task.getException();
+                            } catch(FirebaseAuthWeakPasswordException e) {
+
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Password should have more than 6 characters.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+
+                            } catch(FirebaseAuthInvalidCredentialsException e) {
+
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Invalid credentials, please try again.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+
+                            } catch(FirebaseAuthUserCollisionException e) {
+
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Another user already exist with same credentials.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+
+                            }
+                            catch(FirebaseAuthEmailException e){
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Please check your email again.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
+                            catch (FirebaseNetworkException e){
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Oops! Please connect to the internet.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
+
+                            catch (FirebaseAuthInvalidUserException e) {
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "This user does not exist.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
+                            catch(Exception e) {
+                                Log.e(TAG, e.getMessage());
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Something went wrong, please try again.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             dialog.dismiss();
                         }
@@ -299,6 +365,17 @@ public class SignupActivity extends AppCompatActivity {
 
     }
 
+    private void hideKeyboard(View v){
+
+        try {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+    }
+
     private void firebaseAuthWithGoogle(String idToken) {
         showAlertDialog();
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
@@ -317,8 +394,58 @@ public class SignupActivity extends AppCompatActivity {
                             updateUI(user.getDisplayName(), user.getUid());
                         }
                         else {
+                            try {
+                                throw task.getException();
+                            } catch(FirebaseAuthWeakPasswordException e) {
+
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Password should have more than 6 characters.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+
+                            } catch(FirebaseAuthInvalidCredentialsException e) {
+
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Invalid credentials, please try again.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+
+                            } catch(FirebaseAuthUserCollisionException e) {
+
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Another user already exist with same credentials.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+
+                            }
+                            catch(FirebaseAuthEmailException e){
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Please check your email again.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
+                            catch (FirebaseNetworkException e){
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Oops! Please connect to the internet.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
+
+                            catch (FirebaseAuthInvalidUserException e) {
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "This user does not exist.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
+                            catch(Exception e) {
+                                Log.e(TAG, e.getMessage());
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Something went wrong, please try again.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }
 
@@ -341,8 +468,60 @@ public class SignupActivity extends AppCompatActivity {
                             updateUI(user.getDisplayName(), user.getUid());
                         }
                         else {
+
+                            try {
+                                throw task.getException();
+                            } catch(FirebaseAuthWeakPasswordException e) {
+
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Password should have more than 6 characters.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+
+                            } catch(FirebaseAuthInvalidCredentialsException e) {
+
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Invalid credentials, please try again.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+
+                            } catch(FirebaseAuthUserCollisionException e) {
+
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Another user already exist with same credentials.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+
+                            }
+                            catch(FirebaseAuthEmailException e){
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Please check your email again.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
+                            catch (FirebaseNetworkException e){
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Oops! Please connect to the internet.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
+
+                            catch (FirebaseAuthInvalidUserException e) {
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "This user does not exist.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
+                            catch(Exception e) {
+                                Log.e(TAG, e.getMessage());
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Something went wrong, please try again.", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                                snackbar.show();
+                            }
+
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }
 
@@ -367,7 +546,45 @@ public class SignupActivity extends AppCompatActivity {
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
-                Toast.makeText(getApplicationContext(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+                if(e.getStatusCode() == GoogleSignInStatusCodes.SIGN_IN_REQUIRED){
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Sign in required.", Snackbar.LENGTH_SHORT);
+                    View snackBarView = snackbar.getView();
+                    snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                    snackbar.show();
+                }
+                 if(e.getStatusCode() == GoogleSignInStatusCodes.NETWORK_ERROR){
+
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Network error, please try again.", Snackbar.LENGTH_SHORT);
+                    View snackBarView = snackbar.getView();
+                    snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                    snackbar.show();
+
+                }
+                 if(e.getStatusCode() == GoogleSignInStatusCodes.INVALID_ACCOUNT){
+
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Invalid account, please try again.", Snackbar.LENGTH_SHORT);
+                    View snackBarView = snackbar.getView();
+                    snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                    snackbar.show();
+
+                }
+                 if(e.getStatusCode() == GoogleSignInStatusCodes.INTERNAL_ERROR){
+
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Something went wrong, please try again.", Snackbar.LENGTH_SHORT);
+                    View snackBarView = snackbar.getView();
+                    snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                    snackbar.show();
+
+                }
+                if(e.getStatusCode() == GoogleSignInStatusCodes.SIGN_IN_FAILED){
+
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.signupLayout), "Sign in failed, please try again.", Snackbar.LENGTH_SHORT);
+                    View snackBarView = snackbar.getView();
+                    snackBarView.setBackgroundColor(getResources().getColor(R.color.hint));
+                    snackbar.show();
+
+                }
+//                Toast.makeText(getApplicationContext(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
                 // ...
             }
         }

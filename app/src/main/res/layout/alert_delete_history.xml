@@ -2,7 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingBottom="16dp"
+    android:background="@color/off_white"
+    android:paddingBottom="24dp"
+    android:paddingStart="0dp"
+    android:paddingEnd="0dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -35,6 +38,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11"
         app:srcCompat="@drawable/ic_no_button" />
@@ -44,6 +49,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"
         app:layout_constraintTop_toBottomOf="@+id/textView11"
         app:srcCompat="@drawable/ic_yes_button" />
     </LinearLayout>

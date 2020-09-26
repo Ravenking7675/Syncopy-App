@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ScreenshotActivity"
+    android:id="@+id/constran_layout_snackbar"
+    android:background="@drawable/ic_screenshot_background">
+
+    <ImageView
+        android:id="@+id/profile_screenshotI"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/name_screenshotT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_screenshotI"
+        app:layout_constraintEnd_toStartOf="@+id/profile_screenshotI"
+        app:layout_constraintStart_toEndOf="@+id/back_screenshotI"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <ImageView
+        android:id="@+id/back_screenshotI"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="70dp"
+        android:clickable="true"
+        android:elevation="30dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:tooltipText="Go back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_go_back_simon" />
+
+    <ImageView
+        android:id="@+id/screenshot_defaultI"
+        android:layout_width="380dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="16dp"
+        android:elevation="20dp"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_screenshotI"
+        app:srcCompat="@drawable/ic_screenshot_default" />
+
+    <ImageView
+        android:id="@+id/screenshot_rawI"
+        android:layout_width="380dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_screenshotI"
+        app:srcCompat="@drawable/ic_screenshot_default" />
+
+    <ImageView
+        android:id="@+id/screenshot_loadingI"
+        android:layout_width="380dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        android:elevation="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_screenshotI"
+        app:srcCompat="@drawable/ic_sit_relax" />
+
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+        android:id="@+id/screenshotI"
+        android:layout_width="380dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_screenshotI"
+        app:srcCompat="@drawable/ic_screenshot_default" />
+
+    <Button
+        android:id="@+id/screenshotB"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_rounded"
+        android:clickable="true"
+        android:elevation="10dp"
+        android:fontFamily="@font/poppins_medium"
+        android:foreground="?attr/selectableItemBackground"
+        android:paddingLeft="16dp"
+        android:paddingTop="2dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="0dp"
+        android:shadowColor="#00FFFFFF"
+        android:shadowDy="4"
+        android:shadowRadius="4"
+        android:text="Screenshot"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        android:textColorLink="#A22B2B"
+        android:textSize="15sp"
+        android:tooltipText="Screenshot"
+        app:icon="@drawable/ic_screenshot_icon"
+        app:iconTint="@color/text_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/screenshotI"
+        app:rippleColor="@color/white" />
+
+    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+        android:id="@+id/worm_dots_indicator_screenshot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        app:dotsColor="@color/white"
+        app:dotsCornerRadius="8dp"
+        app:dotsSize="14dp"
+        app:dotsSpacing="3dp"
+        app:dotsStrokeColor="@color/white"
+        app:dotsStrokeWidth="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/screenshotB" >
+
+    </com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager_screenshot"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/worm_dots_indicator_screenshot" >
+
+    </androidx.viewpager.widget.ViewPager>
+
+    <ProgressBar
+        android:id="@+id/progressBar_screenshot_image"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:elevation="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/screenshot_rawI"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/screenshot_rawI" />
+
+    <ImageView
+        android:id="@+id/windowsDefaultI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/screenshotB"
+        app:srcCompat="@drawable/ic_screenshot_windows_defaulti" />
+
+    <ImageView
+        android:id="@+id/saveImageI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:alpha="0.86"
+        android:clickable="true"
+        android:elevation="30dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:tooltipText='"Save image"'
+        app:layout_constraintBottom_toBottomOf="@+id/screenshotI"
+        app:layout_constraintEnd_toEndOf="@+id/screenshotI"
+        app:srcCompat="@drawable/ic_save_image_dark" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

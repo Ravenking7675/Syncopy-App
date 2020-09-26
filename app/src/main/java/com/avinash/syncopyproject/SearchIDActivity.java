@@ -1,10 +1,12 @@
 package com.avinash.syncopyproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 
@@ -88,6 +91,14 @@ public class SearchIDActivity extends AppCompatActivity {
         continueB = findViewById(R.id.continueSearchB);
         overflowI = findViewById(R.id.search_overflowI);
 
+        final ConstraintLayout con = findViewById(R.id.searchUserLayout);
+        con.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(con);
+            }
+        });
+
         pc_connections = new ArrayList<>();
 
         sharedPreferences = getSharedPreferences(HomeFragment.SHARED_PREF, MODE_PRIVATE);
@@ -105,7 +116,9 @@ public class SearchIDActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SyncopyActivity.class);
+                intent.putExtra(SyncopyActivity.FRAGMENT_NO, 1);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -120,7 +133,7 @@ public class SearchIDActivity extends AppCompatActivity {
         searchB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                hideKeyboard(searchB);
                 scanB.setVisibility(View.VISIBLE);
                 defaultI.setVisibility(View.VISIBLE);
                 failI.setVisibility(View.GONE);
@@ -213,6 +226,17 @@ public class SearchIDActivity extends AppCompatActivity {
 
     }
 
+    private void hideKeyboard(View v){
+
+        try {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+    }
+
     private void connectWithPC() {
         try {
             pc_connections = new ArrayList<>(sharedPreferences.getStringSet(PREF_PC_USERS, null));
@@ -242,7 +266,9 @@ public class SearchIDActivity extends AppCompatActivity {
                     }
                     Log.i(TAG, "onComplete: PC CONNECTION SIZE : " + pc_connections.size());
                     Intent intent = new Intent(SearchIDActivity.this, SyncopyActivity.class);
+                    intent.putExtra(SyncopyActivity.FRAGMENT_NO, 2);
                     startActivity(intent);
+                    finish();
                 }
                 else{
                     Log.i(TAG, "onComplete: FAILED TO ADD PC USER");
@@ -268,8 +294,8 @@ public class SearchIDActivity extends AppCompatActivity {
                     PcUser pcUser = snapshot.getValue(PcUser.class);
                     if(pcUser != null){
                         Log.i(TAG, "FOUND PC USER : "+pcUser.getPcName());
-
-                        if(!pcUser.getConnectedTo().equals(mAuth.getCurrentUser().getUid())) {
+//                        if(!pcUser.getConnectedTo().equals(mAuth.getCurrentUser().getUid()) && pcUser.getConnectedTo().equals("-1")) {
+                        if(pcUser.getConnectedTo().equals("unknown")) {
 
                             defaultI.setVisibility(View.GONE);
 
@@ -316,6 +342,7 @@ public class SearchIDActivity extends AppCompatActivity {
                             searchUUIDT.setText("PC ID : " + pcUser.getUuid());
 
                             alreadyConnectedT.setVisibility(View.VISIBLE);
+                            alreadyConnectedT.setText("This user is not available.");
 
                         }
 
@@ -374,6 +401,7 @@ public class SearchIDActivity extends AppCompatActivity {
                         searchUsernameT.setText(connectionUsername);
                         searchUUIDT.setText("Clip ID : " + connectionShortId);
                         alreadyConnectedT.setVisibility(View.VISIBLE);
+                        alreadyConnectedT.setText("You're already connected with this user.");
                     } else {
                         defaultI.setVisibility(View.GONE);
 
@@ -444,7 +472,9 @@ public class SearchIDActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Connection Established", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), SyncopyActivity.class);
+                    intent.putExtra(SyncopyActivity.FRAGMENT_NO, 4);
                     startActivity(intent);
+                    finish();
                 }
             }
         });

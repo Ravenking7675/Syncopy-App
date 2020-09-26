@@ -47,6 +47,8 @@
         android:fontFamily="@font/poppins_medium"
         android:paddingLeft="0dp"
         android:paddingTop="0dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"
         android:paddingRight="0dp"
         android:paddingBottom="0dp"
 

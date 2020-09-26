@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ic_background_startup"
+    android:id="@+id/snack_bar_edit_profile"
     tools:context=".EditProfileActivity">
 
 
@@ -106,6 +107,7 @@
         android:textAllCaps="false"
         android:textColor="@color/hint"
         android:textSize="20sp"
+        android:tooltipText="Continue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

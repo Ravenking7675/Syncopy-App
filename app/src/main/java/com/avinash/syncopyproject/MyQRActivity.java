@@ -11,11 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.avinash.syncopyproject.Fragments.HomeFragment;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
@@ -68,7 +68,9 @@ public class MyQRActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SyncopyActivity.class);
+                intent.putExtra(SyncopyActivity.FRAGMENT_NO, 1);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -87,7 +89,11 @@ public class MyQRActivity extends AppCompatActivity {
                 ClipData clip = ClipData.newPlainText(null, userIdT.getText().toString().trim());
                 if(clip != null) {
                     clipboard.setPrimaryClip(clip);
-                    Toast.makeText(MyQRActivity.this, "Copied to your clipboard", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MyQRActivity.this, "Copied to your clipboard", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar_qrcode), "Copied to your clipboard", Snackbar.LENGTH_SHORT);
+                    View snackBarView = snackbar.getView();
+                    snackBarView.setBackgroundColor(getResources().getColor(R.color.text_color));
+                    snackbar.show();
                 }
                 return false;
             }

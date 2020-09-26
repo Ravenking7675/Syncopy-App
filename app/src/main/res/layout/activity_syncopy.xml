@@ -45,7 +45,8 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:foregroundGravity="center_vertical"
                 android:paddingEnd="30dp"
-                android:src="@drawable/ic_home_icon_selected" />
+                android:src="@drawable/ic_home_icon_selected"
+                android:tooltipText="Home" />
 
             <ImageButton
                 android:id="@+id/connect"
@@ -57,7 +58,8 @@
                 android:foregroundGravity="center_vertical"
                 android:paddingTop="3dp"
                 android:paddingEnd="15dp"
-                android:src="@drawable/ic_connect_icon" />
+                android:src="@drawable/ic_connect_icon"
+                android:tooltipText="Connect" />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -77,7 +79,8 @@
                 android:foregroundGravity="center_vertical"
                 android:paddingStart="15dp"
                 android:paddingBottom="4dp"
-                android:src="@drawable/ic_history_icon" />
+                android:src="@drawable/ic_history_icon"
+                android:tooltipText="History" />
 
             <ImageButton
                 android:id="@+id/profile"
@@ -88,7 +91,8 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:foregroundGravity="center_vertical"
                 android:paddingStart="30dp"
-                android:src="@drawable/ic_profile_icon" />
+                android:src="@drawable/ic_profile_icon"
+                android:tooltipText="Profile" />
 
         </LinearLayout>
 
@@ -99,11 +103,12 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/fab_selective"
         android:elevation="10dp"
         android:src="@drawable/ic_plus"
+        android:tooltipText="Add user"
+        app:backgroundTint="@color/fab_selective"
         app:borderWidth="0dp"
         app:layout_anchor="@id/bottom_app_bar"
-        app:rippleColor="@color/colorAccent" />
+        app:rippleColor="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

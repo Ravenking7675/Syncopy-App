@@ -7,7 +7,7 @@ import android.os.Build;
 
 public class NotificationChannelCreator extends Application {
 
-    public static final String CHANNEL_ID = "exampleServiceChannel";
+    public static final String CHANNEL_ID = "exampleServiceChannel3";
     @Override
     public void onCreate() {
         super.onCreate();
@@ -18,7 +18,7 @@ public class NotificationChannelCreator extends Application {
             NotificationChannel serviceChannel = new NotificationChannel(
                     CHANNEL_ID,
                     "Example Service Channel",
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    NotificationManager.IMPORTANCE_LOW
             );
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);

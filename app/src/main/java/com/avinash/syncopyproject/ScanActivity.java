@@ -7,11 +7,13 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.ArraySet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
@@ -19,6 +21,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +33,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 
+import com.avinash.syncopyproject.Fragments.HomeFragment;
+import com.avinash.syncopyproject.Model.PcUser;
 import com.avinash.syncopyproject.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -46,6 +51,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
+import static android.view.View.GONE;
+import static com.avinash.syncopyproject.SearchIDActivity.PREF_PC_USERS;
 
 public class ScanActivity extends AppCompatActivity {
 
@@ -62,6 +74,7 @@ public class ScanActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Boolean isExistingContact = false;
     private Dialog dialog;
+    private Dialog scanDialog;
     private View customLayout;
 
     private TextView alertT;
@@ -74,11 +87,20 @@ public class ScanActivity extends AppCompatActivity {
     private ImageView tick4;
     private ImageView tick_overflow;
 
+    private LinearLayout statusLinearLayout;
+
     private ProgressBar progress1;
     private ProgressBar progress2;
     private ProgressBar progress3;
     private ProgressBar progress4;
     private ProgressBar progress_overflow;
+
+    private ArrayList<String> pc_connections;
+    private SharedPreferences sharedPreferences;
+
+    private TextView scan_pc_nameT;
+    private TextView scan_pc_statusT;
+
 
     private ClipboardManager clipboard;
 
@@ -94,6 +116,8 @@ public class ScanActivity extends AppCompatActivity {
         textView = findViewById(R.id.scanText);
         myQrI = findViewById(R.id.myQRI);
         cancelI = findViewById(R.id.cancelQRI);
+
+        sharedPreferences = getSharedPreferences(HomeFragment.SHARED_PREF, MODE_PRIVATE);
 
         if (checkPermission()) {
             //main logic or main code
@@ -175,6 +199,18 @@ public class ScanActivity extends AppCompatActivity {
                             }
                             count++;
                         }
+
+                        if(code.substring(0, 3).equals("pc-")) {
+
+                            if (count < 1) {
+//                                Toast.makeText(getApplicationContext(), "This is : "+code, Toast.LENGTH_SHORT).show();
+                                showAlertDialogForPcUser(code);
+
+
+                            }
+                            count++;
+
+                        }
                     }
                         });
 
@@ -205,13 +241,142 @@ public class ScanActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SyncopyActivity.class);
+                intent.putExtra(SyncopyActivity.FRAGMENT_NO, 1);
                 startActivity(intent);
+                finish();
             }
         });
 
 
 
 
+    }
+
+    private void searchPCUser(final String uuid) {
+
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("user_web").child(uuid);
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    //Found user
+                    PcUser pcUser = snapshot.getValue(PcUser.class);
+                    if(pcUser != null){
+                        Log.i(TAG, "FOUND PC USER : "+pcUser.getPcName());
+//                        if(!pcUser.getConnectedTo().equals(mAuth.getCurrentUser().getUid()) && pcUser.getConnectedTo().equals("-1")) {
+                        if(pcUser.getConnectedTo().equals("unknown")) {
+
+//                            Toast.makeText(getApplicationContext(), "This user is available", Toast.LENGTH_SHORT).show();
+                            scan_pc_statusT.setText("Connecting user");
+                            connectWithPC(uuid);
+
+                        }
+                        else{
+
+//                            Toast.makeText(getApplicationContext(), "This user is not available", Toast.LENGTH_SHORT).show();
+                            statusLinearLayout.setVisibility(GONE);
+                            scan_pc_nameT.setText("User is not available");
+                            scanDialog.setCancelable(true);
+                            scanDialog.setCanceledOnTouchOutside(true);
+
+
+                        }
+
+                    }
+                }
+                else{
+//                    Toast.makeText(getApplicationContext(), "This user does not exists", Toast.LENGTH_SHORT).show();
+                    statusLinearLayout.setVisibility(GONE);
+                    scan_pc_nameT.setText("User does not exist");
+                    scanDialog.setCancelable(true);
+                    scanDialog.setCanceledOnTouchOutside(true);
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void connectWithPC(final String pc_uuid) {
+        try {
+            pc_connections = new ArrayList<>(sharedPreferences.getStringSet(PREF_PC_USERS, new ArraySet<String>()));
+            Log.i(TAG, "connectWithPC: INITIAL CONNECTION SIZE : " + pc_connections.size());
+            for(String i : pc_connections){
+                Log.i(TAG, "connectWithPC: CONNECTIONS : "+i);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("user_web").child(pc_uuid);
+        Map<String, Object> map = new HashMap<>();
+        map.put("connectedTo", mAuth.getCurrentUser().getUid());
+        mRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Log.i(TAG, "onComplete: ADDED PC USER SUCCESSFULLY");
+                    scan_pc_statusT.setText("Opening connections");
+                    try{
+                        Log.i(TAG, "UUID : "+pc_uuid);
+                        pc_connections.add(pc_uuid);
+                        sharedPreferences.edit().putStringSet(PREF_PC_USERS, new HashSet<String>(pc_connections)).apply();
+
+                    }catch (Exception e){
+                        //Do something
+                    }
+                    Log.i(TAG, "onComplete: PC CONNECTION SIZE : " + pc_connections.size());
+                    scanDialog.dismiss();
+                    Intent intent = new Intent(ScanActivity.this, SyncopyActivity.class);
+                    intent.putExtra(SyncopyActivity.FRAGMENT_NO, 2);
+                    startActivity(intent);
+                    finish();
+                }
+                else{
+                    Log.i(TAG, "onComplete: FAILED TO ADD PC USER");
+                    statusLinearLayout.setVisibility(GONE);
+                    scan_pc_nameT.setText("Oups! Please try again");
+                    scanDialog.dismiss();
+                }
+            }
+        });
+
+    }
+
+    public void showAlertDialogForPcUser(String code)
+    {
+        searchPCUser(code);
+        // Create an alert builder
+        AlertDialog.Builder builder
+                = new AlertDialog.Builder(this);
+
+        // set the custom layout
+        final View customLayout
+                = getLayoutInflater()
+                .inflate(
+                        R.layout.scan_pc_alert,
+                        null);
+        builder.setView(customLayout);
+
+        scan_pc_nameT = customLayout.findViewById(R.id.scan_pc_user_nameT);
+        scan_pc_statusT = customLayout.findViewById(R.id.scan_pc_user_statusT);
+        statusLinearLayout = customLayout.findViewById(R.id.status_linear_layout);
+
+        scan_pc_nameT.setText("Ola! Agent : "+code);
+        scan_pc_statusT.setText("Searching for user availability");
+        // create and show
+        // the alert dialog
+        scanDialog = builder.create();
+
+        scanDialog.setCanceledOnTouchOutside(false);
+        scanDialog.setCancelable(false);
+        scanDialog.show();
     }
 
     private void copyToClipboard(String code) {
@@ -258,18 +423,19 @@ public class ScanActivity extends AppCompatActivity {
         progress_overflow = customLayout.findViewById(R.id.progress_overflow);
 
         alertT.setText("Ola! Agent : "+agent_code);
-        alertB.setVisibility(View.GONE);
-        retryB.setVisibility(View.GONE);
+        alertB.setVisibility(GONE);
+        retryB.setVisibility(GONE);
 
         setTick(progress1, tick1, true);
 
-        alertB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SyncopyActivity.class);
-                startActivity(intent);
-            }
-        });
+//        alertB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), SyncopyActivity.class);
+//                intent.putExtra(SyncopyActivity.FRAGMENT_NO, 4);
+//                startActivity(intent);
+//            }
+//        });
 
         retryB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -325,8 +491,13 @@ public class ScanActivity extends AppCompatActivity {
 //                    Intent intent = new Intent(ScanActivity.this, SyncopyActivity.class);
 //                    startActivity(intent);
                     setTick(progress4, tick4, true);
-                    alertB.setVisibility(View.VISIBLE);
-                    alertT.setText("Connection Established");
+//                    alertB.setVisibility(View.VISIBLE);
+                    dialog.dismiss();
+                    Intent intent = new Intent(getApplicationContext(), SyncopyActivity.class);
+                    intent.putExtra(SyncopyActivity.FRAGMENT_NO, 4);
+                    startActivity(intent);
+                    finish();
+//                    alertT.setText("Connection Established");
 
                 }
             }).addOnFailureListener(new OnFailureListener() {

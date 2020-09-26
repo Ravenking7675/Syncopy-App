@@ -1,6 +1,7 @@
 package com.avinash.syncopyproject.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.avinash.syncopyproject.Adapters.ConnectionAdapter;
 import com.avinash.syncopyproject.Model.PcUser;
 import com.avinash.syncopyproject.R;
 import com.avinash.syncopyproject.SearchIDActivity;
+import com.avinash.syncopyproject.WebViewActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,21 +37,26 @@ import java.util.Set;
 import anil.sardiwal.reboundrecycler.ReboundRecycler;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
+import static com.avinash.syncopyproject.GithubRepoActivity.WEBVIEWURL;
+import static com.avinash.syncopyproject.WebViewActivity.URLCODE;
+
 public class ConnectFragment extends Fragment {
 
     private static final String TAG = "ConnectFragment";
     private View view;
     private SharedPreferences sharedPreferences;
-    private Set<String> pc_users = new HashSet<>();
+    public static Set<String> pc_users = new HashSet<>();
     private FirebaseAuth mAuth;
-    private RecyclerView recyclerView;
-    private ConnectionAdapter adapter;
+    private static RecyclerView recyclerView;
+    private  ConnectionAdapter adapter;
     private ArrayList<PcUser> connections = new ArrayList<>();
-    private ArrayList<String> connection_ids;
+    public static ArrayList<String> connection_ids;
     private ProgressBar progressBar;
     private ImageView defaultI;
     private TextView defaultT;
     private LinearLayout defaultParaT;
+    private TextView connectBackgroundT;
+    private TextView syncopy_linkT;
 
     public ConnectFragment() {
         // Required empty public constructor
@@ -66,6 +73,8 @@ public class ConnectFragment extends Fragment {
         defaultT = view.findViewById(R.id.connection_defaultT);
         defaultParaT = view.findViewById(R.id.connection_default_ParaT);
         progressBar = view.findViewById(R.id.progressBar_connect_loading);
+        connectBackgroundT = view.findViewById(R.id.holdConnectionT);
+        syncopy_linkT = view.findViewById(R.id.syncopy_linkT);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -97,7 +106,25 @@ public class ConnectFragment extends Fragment {
         ReboundRecycler.init(recyclerView);
         OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
+        syncopy_linkT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getContext(), WebViewActivity.class);
+                intent.putExtra(WEBVIEWURL, "https://github.com/Ravenking7675/");
+                intent.putExtra(URLCODE, 5);
+                startActivity(intent);
+
+            }
+        });
+
         return view;
+    }
+
+    public static void updateRecyclerView(){
+
+
+
     }
 
     private void updateConnectionsInfo() {
@@ -108,7 +135,7 @@ public class ConnectFragment extends Fragment {
             defaultParaT.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
-
+            connectBackgroundT.setVisibility(View.INVISIBLE);
         }
         else if(connection_ids.size() == 0){
 
@@ -117,6 +144,8 @@ public class ConnectFragment extends Fragment {
             defaultParaT.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
+            connectBackgroundT.setVisibility(View.INVISIBLE);
+
         }
         else {
 
@@ -124,6 +153,7 @@ public class ConnectFragment extends Fragment {
             defaultT.setVisibility(View.GONE);
             defaultParaT.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
+            connectBackgroundT.setVisibility(View.VISIBLE);
 
             Log.i(TAG, "updateConnectionsInfo: Starts");
             DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("user_web");
@@ -150,9 +180,23 @@ public class ConnectFragment extends Fragment {
                         }
                         Log.i(TAG, "CONNECTIONS ARE : " + connections.size());
 
-                        adapter = new ConnectionAdapter(getContext(), connections);
-                        recyclerView.setAdapter(adapter);
-                        progressBar.setVisibility(View.GONE);
+                        if(connections.size() == 0){
+
+                            defaultI.setVisibility(View.VISIBLE);
+                            defaultT.setVisibility(View.VISIBLE);
+                            defaultParaT.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
+                            connectBackgroundT.setVisibility(View.INVISIBLE);
+
+                        }
+                        else {
+                            adapter = new ConnectionAdapter(getContext(), connections);
+                            recyclerView.setAdapter(adapter);
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+
                     }
 
                 }
@@ -212,4 +256,6 @@ public class ConnectFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+
 }
