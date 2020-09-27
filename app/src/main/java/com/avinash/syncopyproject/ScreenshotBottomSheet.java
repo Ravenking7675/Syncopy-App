@@ -95,7 +95,8 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
 //        command_list.add(new Commands("Update PC", "open chrome"));
 //        command_list.add(new Commands("Open my IDE", "open chrome"));
 
-        setUpDefaultCommandList();
+//        setUpDefaultCommandList();
+        checkForCommandExistence();
 
         fetchCommands();
 
@@ -171,13 +172,10 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
 
     private void setUpDefaultCommandList() {
 
-        Boolean isFirst = checkForCommandExistence();
+//        Boolean isfirst = checkForCommandExistence();
 
         try{
 //            Boolean isFirst = sharedPreferences.getBoolean(PREF_DEFAULT_COMMANDS, true);
-
-            if(isFirst){
-
                 Log.i(TAG, "setUpCommandList: SENDING DEFAULT COMMANDS FOR THE FIRST TIME");
 
                //command > uuid > (push) Command.class
@@ -243,7 +241,6 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
                         }
                     }
                 });
-            }
 
         }catch (Exception e){
             e.printStackTrace();
@@ -251,20 +248,20 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
 
     }
 
-    private Boolean checkForCommandExistence() {
+    private void checkForCommandExistence() {
 
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("command").child(mAuth.getCurrentUser().getUid());
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    if(snapshot.getChildrenCount() > 0)
-                        isFirst = false;
-                    else
-                        isFirst = true;
+                    if(snapshot.getChildrenCount()==0)
+                        setUpDefaultCommandList();
+
+//                    Log.i(TAG, "onDataChange: "+snapshot.getChildrenCount());
                 }
                 else
-                    isFirst = true;
+                    setUpDefaultCommandList();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -272,7 +269,6 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
             }
         });
 
-        return isFirst;
     }
 
 }
