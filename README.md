@@ -9,4 +9,4 @@
 ### Selective mode
 ![](selective.png)
 ### Screenshot activity
-![](screenshot.png) 
+![](Screenshot.png) 
