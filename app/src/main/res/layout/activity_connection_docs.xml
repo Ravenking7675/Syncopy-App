@@ -286,7 +286,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins"
-                android:text="In Syncopé, a connection is formed when a PC is connected with an android devise."
+                android:text="In Syncopé, a connection is formed when a PC is connected with an android device."
                 android:textColor="@color/text_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -365,7 +365,7 @@ new connection."
                 android:text="You can remove the connection either by
 terminating the desktop application or by removing
 the connection card from Syncopé’s connection
-section from your android devise."
+section from your android device."
                 android:textColor="@color/text_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -402,7 +402,7 @@ section from your android devise."
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins"
-                android:text="Your android devise works as a master node for
+                android:text="Your android device works as a master node for
 other PCs to connect with each other. Using one
 android device you can connect (n) number of
 PCs. However, we recommend you to keep the
@@ -447,7 +447,7 @@ maximum connection count to 10(ten)"
 is passed to your desktop application via our
 server. The desktop app then generates a
 snapshot of the PCs screen at that point of time
-and sends it back to your devise."
+and sends it back to your device."
                 android:textColor="@color/text_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -647,7 +647,7 @@ the task in Linux."
                 android:text="Here you can choose a browser between
 Chromium, Chrome, Firefox and pass in any link
 inside the Link Textbox, the link will be opened
-inside the choosen browser in the selected PC."
+inside the chosen browser in the selected PC."
                 android:textColor="@color/text_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -727,7 +727,7 @@ who’s dependencies are not installed in your PC."
 \n\n2. Install “cheese” in your PC to take picture and
 grabbing screenshots of your camera anytime.
 
-\n\n3. In Speek dialog, say “repeat (something)” to make your PC repeate the same sentence you say. "
+\n\n3. In Speak dialog, say “repeat (something)” to make your PC repeate the same sentence you say. "
                 android:textColor="@color/text_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
