@@ -2,11 +2,11 @@
 ![](logo.png)
 
 ## Screenshots
-###Stealth mode
+### Stealth mode
 ![](stealth.jpg)
-###Burst mode
+### Burst mode
 ![](burst.png)
-###Selective mode
+### Selective mode
 ![](selective.png)
-###Screenshot activity
+### Screenshot activity
 ![](screenshot.png) 
