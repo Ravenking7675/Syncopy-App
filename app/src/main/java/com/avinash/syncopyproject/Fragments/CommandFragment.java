@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -543,20 +542,17 @@ public class CommandFragment extends Fragment {
 
     public boolean isSpeechPermissionGranted() {
         String TAG = "Storage Permission";
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (getContext().checkSelfPermission(Manifest.permission.RECORD_AUDIO)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v(TAG, "Permission is granted");
-                return true;
-            } else {
-                Log.v(TAG, "Permission is revoked");
-                ActivityCompat.requestPermissions(getActivity() , new String[]{Manifest.permission.RECORD_AUDIO}, RecordAudioRequestCode);
-                return false;
-            }
-        }
-        else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(TAG,"Permission is granted");
+        if (getContext().checkSelfPermission(Manifest.permission.RECORD_AUDIO)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            speakDialog.dismiss();
+
+            Log.v(TAG, "Permission is granted");
             return true;
+        } else {
+            Log.v(TAG, "Permission is revoked");
+            ActivityCompat.requestPermissions(getActivity() , new String[]{Manifest.permission.RECORD_AUDIO}, RecordAudioRequestCode);
+            return false;
         }
     }
 

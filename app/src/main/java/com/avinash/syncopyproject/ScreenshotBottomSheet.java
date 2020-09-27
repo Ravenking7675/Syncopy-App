@@ -53,6 +53,7 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
     private Button createCommandB;
+    private Boolean isFirst = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -170,8 +171,10 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
 
     private void setUpDefaultCommandList() {
 
+        Boolean isFirst = checkForCommandExistence();
+
         try{
-            Boolean isFirst = sharedPreferences.getBoolean(PREF_DEFAULT_COMMANDS, true);
+//            Boolean isFirst = sharedPreferences.getBoolean(PREF_DEFAULT_COMMANDS, true);
 
             if(isFirst){
 
@@ -188,7 +191,7 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
                 long milliSeconds = (rightNow.getTimeInMillis() + offset) %
                         (24 * 60 * 60 * 1000);
 
-                mRef.push().setValue(new Commands("Open chrome", "open chrome", milliSeconds)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                mRef.push().setValue(new Commands("Lock PC", "loginctl lock-session", milliSeconds)).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
@@ -202,7 +205,7 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
                 milliSeconds = (rightNow.getTimeInMillis() + offset) %
                         (24 * 60 * 60 * 1000);
 
-                mRef.push().setValue(new Commands("Open spotify", "open chrome", milliSeconds)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                mRef.push().setValue(new Commands("Unlock PC", "loginctl unlock-session", milliSeconds)).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
@@ -216,7 +219,7 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
                 milliSeconds = (rightNow.getTimeInMillis() + offset) %
                         (24 * 60 * 60 * 1000);
 
-                mRef.push().setValue(new Commands("Update PC", "open chrome", milliSeconds)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                mRef.push().setValue(new Commands("Open camera", "cheese -f", milliSeconds)).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
@@ -230,7 +233,7 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
                 milliSeconds = (rightNow.getTimeInMillis() + offset) %
                         (24 * 60 * 60 * 1000);
 
-                mRef.push().setValue(new Commands("Open my IDE", "open chrome", milliSeconds)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                mRef.push().setValue(new Commands("Open spotify", "spotify", milliSeconds)).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
@@ -246,6 +249,30 @@ public class ScreenshotBottomSheet extends BottomSheetDialogFragment {
             e.printStackTrace();
         }
 
+    }
+
+    private Boolean checkForCommandExistence() {
+
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("command").child(mAuth.getCurrentUser().getUid());
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    if(snapshot.getChildrenCount() > 0)
+                        isFirst = false;
+                    else
+                        isFirst = true;
+                }
+                else
+                    isFirst = true;
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return isFirst;
     }
 
 }

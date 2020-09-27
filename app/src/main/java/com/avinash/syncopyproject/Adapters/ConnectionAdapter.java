@@ -86,16 +86,16 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
             holder.card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, ScreenshotActivity.class);
-                    intent.putExtra(INTENT_PC_NAME, connections.get(position).getPcName());
-                    intent.putExtra(INTENT_PC_UUID, connections.get(position).getUuid());
-                    // 1->Linux 2->Windows
+
                     if (connections.get(position).getPcType().toLowerCase().equals("linux")) {
+
+                        Intent intent = new Intent(mContext, ScreenshotActivity.class);
+                        intent.putExtra(INTENT_PC_NAME, connections.get(position).getPcName());
+                        intent.putExtra(INTENT_PC_UUID, connections.get(position).getUuid());
+                        // 1->Linux 2->Windows
                         intent.putExtra(INTENT_PC_TYPE, 1);
-                    } else {
-                        intent.putExtra(INTENT_PC_TYPE, 2);
+                        mContext.startActivity(intent);
                     }
-                    mContext.startActivity(intent);
                 }
             });
 
