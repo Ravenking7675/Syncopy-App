@@ -111,7 +111,7 @@ public class ConnectFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getContext(), WebViewActivity.class);
-                intent.putExtra(WEBVIEWURL, "https://github.com/Ravenking7675/");
+                intent.putExtra(WEBVIEWURL, "https://github.com/Ravenking7675/Syncopy");
                 intent.putExtra(URLCODE, 5);
                 startActivity(intent);
 

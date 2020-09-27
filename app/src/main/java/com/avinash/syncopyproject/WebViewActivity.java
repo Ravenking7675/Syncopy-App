@@ -54,6 +54,8 @@ public class WebViewActivity extends AppCompatActivity {
             webLinkT.setText("github.com/Ravenking7675");
         if(urlcode == 4)
             webLinkT.setText("instagram.com/ravenking7575");
+        if(urlcode == 5)
+            webLinkT.setText("github.com/Ravenking7675/Syncopy");
 
         progressBar.setVisibility(View.VISIBLE);
 

@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,6 +100,9 @@ public class ProfileFragment extends Fragment {
         searchConnections();
         updateUserInfo();
 
+        final Vibrator vib = (Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE);
+
+
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setItemViewCacheSize(20);
@@ -116,6 +121,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
+                    vib.vibrate(VibrationEffect.createOneShot(15, 10));
                     BottomSheetProfile bottomSheet = new BottomSheetProfile();
                     bottomSheet.isCancelable();
                     bottomSheet.show(getFragmentManager(), "exampleBottomSheet");

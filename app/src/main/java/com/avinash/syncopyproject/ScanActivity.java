@@ -100,7 +100,7 @@ public class ScanActivity extends AppCompatActivity {
 
     private TextView scan_pc_nameT;
     private TextView scan_pc_statusT;
-
+    private Vibrator vibre;
 
     private ClipboardManager clipboard;
 
@@ -116,6 +116,7 @@ public class ScanActivity extends AppCompatActivity {
         textView = findViewById(R.id.scanText);
         myQrI = findViewById(R.id.myQRI);
         cancelI = findViewById(R.id.cancelQRI);
+        vibre = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
         sharedPreferences = getSharedPreferences(HomeFragment.SHARED_PREF, MODE_PRIVATE);
 
@@ -240,6 +241,7 @@ public class ScanActivity extends AppCompatActivity {
         cancelI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                vibre.vibrate(VibrationEffect.createOneShot(20, 20));
                 Intent intent = new Intent(getApplicationContext(), SyncopyActivity.class);
                 intent.putExtra(SyncopyActivity.FRAGMENT_NO, 1);
                 startActivity(intent);
@@ -333,6 +335,7 @@ public class ScanActivity extends AppCompatActivity {
                     }
                     Log.i(TAG, "onComplete: PC CONNECTION SIZE : " + pc_connections.size());
                     scanDialog.dismiss();
+                    vibre.vibrate(VibrationEffect.createOneShot(20, 20));
                     Intent intent = new Intent(ScanActivity.this, SyncopyActivity.class);
                     intent.putExtra(SyncopyActivity.FRAGMENT_NO, 2);
                     startActivity(intent);

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -67,7 +69,7 @@ public class SearchIDActivity extends AppCompatActivity {
 
     private ArrayList<String> pc_connections;
     private SharedPreferences sharedPreferences;
-
+    private Vibrator vibre;
     private String pc_uuid;
 
     @Override
@@ -111,6 +113,9 @@ public class SearchIDActivity extends AppCompatActivity {
                 startScanActivity();
             }
         });
+
+        vibre = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+
 
         cancelI.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,6 +270,7 @@ public class SearchIDActivity extends AppCompatActivity {
                         //Do something
                     }
                     Log.i(TAG, "onComplete: PC CONNECTION SIZE : " + pc_connections.size());
+                    vibre.vibrate(VibrationEffect.createOneShot(20, 20));
                     Intent intent = new Intent(SearchIDActivity.this, SyncopyActivity.class);
                     intent.putExtra(SyncopyActivity.FRAGMENT_NO, 2);
                     startActivity(intent);
@@ -471,6 +477,7 @@ public class SearchIDActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Connection Established", Toast.LENGTH_SHORT).show();
+                    vibre.vibrate(VibrationEffect.createOneShot(20, 20));
                     Intent intent = new Intent(getApplicationContext(), SyncopyActivity.class);
                     intent.putExtra(SyncopyActivity.FRAGMENT_NO, 4);
                     startActivity(intent);
