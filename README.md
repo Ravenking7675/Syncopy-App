@@ -1,1 +1,1 @@
-# Syncopy-App
+# Syncopé App (*Source code*)
