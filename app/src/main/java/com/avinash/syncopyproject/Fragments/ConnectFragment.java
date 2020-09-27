@@ -171,7 +171,7 @@ public class ConnectFragment extends Fragment {
                             PcUser user = s.getValue(PcUser.class);
                             if (user != null) {
 //                            Log.i(TAG, "onDataChange: USER ID : "+user.getUuid());
-                                if (connection_ids.contains(user.getUuid())) {
+                                if (connection_ids.contains(user.getUuid()) && !connection_ids.equals("pc-7fC3EB")) {
                                     Log.i(TAG, "CONNECTION FOUND");
                                     connections.add(user);
 
