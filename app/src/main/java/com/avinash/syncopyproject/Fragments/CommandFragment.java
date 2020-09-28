@@ -159,7 +159,9 @@ public class CommandFragment extends Fragment {
             public void onClick(View v) {
                 hideKeyboard(recordI);
                 if(!isRunning) {
-                    showAlertDialog();
+                    if(isSpeechPermissionGranted()) {
+                        showAlertDialog();
+                    }
                 }
                 else{
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.constran_layout_snackbar), "Another command is executing", Snackbar.LENGTH_SHORT);
@@ -331,7 +333,7 @@ public class CommandFragment extends Fragment {
 
     private void readUserSpeech() {
         Log.i(TAG, "readUserSpeech: STATS");
-        if(isSpeechPermissionGranted()){
+//        if(isSpeechPermissionGranted()){
 
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getContext());
             speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -403,7 +405,7 @@ public class CommandFragment extends Fragment {
                 }
             });
 
-        }
+//        }
 
     }
 
@@ -545,7 +547,7 @@ public class CommandFragment extends Fragment {
         if (getContext().checkSelfPermission(Manifest.permission.RECORD_AUDIO)
                 == PackageManager.PERMISSION_GRANTED) {
 
-            speakDialog.dismiss();
+//            speakDialog.dismiss();
 
             Log.v(TAG, "Permission is granted");
             return true;
