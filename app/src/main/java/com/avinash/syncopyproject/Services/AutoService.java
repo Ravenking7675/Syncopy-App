@@ -175,6 +175,7 @@ public class AutoService extends Service {
             collectConnectionData();
 
             listenClipsFromOtherContacts();
+            listenClipsFromPC();
 
             SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
             String prevClip = "";
@@ -208,6 +209,61 @@ public class AutoService extends Service {
                 }
             }
         }
+
+    private void listenClipsFromPC() {
+
+        final SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
+        try {
+            FirebaseDatabase.getInstance().getReference("clip_web").child(mAuth.getCurrentUser().getUid()).child("message")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            if (snapshot.exists()) {
+
+                                    History history = snapshot.getValue(History.class);
+                                    if (history != null) {
+
+                                        try {
+
+                                            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+                                            Log.i(TAG, "GOT CLIP : " + history.getClip());
+
+                                            if (history.getClip() != null) {
+
+                                                Log.i(TAG, "COPYING TO CLIPBOARD");
+                                                sharedClip = ClipData.newPlainText(null, history.getClip());
+                                                clipboard.setPrimaryClip(sharedClip);
+                                                saveToHistory(history.getClip());
+                                                try {
+                                                    sharedPreferences.edit().putString(PREV_CLIP, history.getClip()).apply();
+                                                } catch (Exception e) {
+                                                    Log.i(TAG, "FAILED TO UPDATE SHARED PREF");
+                                                }
+                                            } else {
+                                                Log.i(TAG, "CLIP IS SAME SO NOT COPYING");
+                                            }
+
+                                        } catch (Exception e) {
+                                            //Do something
+                                            Log.i(TAG, "CLIP DATA ERROR");
+                                        }
+
+                                    }
+                                }
+                            }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
 
     private void listenClipsFromOtherContacts() {
         final SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
@@ -343,6 +399,46 @@ public class AutoService extends Service {
         catch (NullPointerException e ){
             //Do something
         }
+    }
+
+    private void saveToHistory(String clip){
+
+        Calendar rightNow = Calendar.getInstance();
+
+        long offset = rightNow.get(Calendar.ZONE_OFFSET) +
+                rightNow.get(Calendar.DST_OFFSET);
+        long milliSeconds = (rightNow.getTimeInMillis() + offset) %
+                (24 * 60 * 60 * 1000);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("time", milliSeconds);
+        map.put("clip", clip);
+        map.put("history", true);
+
+        DatabaseReference mRef = null;
+        try {
+            mRef = FirebaseDatabase.getInstance().getReference("clip").child(mAuth.getCurrentUser().getUid());
+
+            mRef.push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.i(TAG, "onComplete: SUCCESSFULLY SENT");
+                        try {
+                            Log.i(TAG, "onComplete : SENT PC CLIP TO FIREBASE");
+                        }catch (NullPointerException e){
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Log.i(TAG, "FAILED TO SEND CLIP : " + task.getException());
+                    }
+                }
+            });
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
     }
 
     //icon, mode name, auto/manual, secondary text

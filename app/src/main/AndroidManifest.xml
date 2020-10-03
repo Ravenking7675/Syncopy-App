@@ -15,42 +15,42 @@
         android:required="false" />
 
     <application
-        android:name=".NotificationChannelCreator"
+        android:name="com.avinash.syncopyproject.NotificationChannelCreator"
         android:icon="@drawable/syncopy_logo"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/syncopy_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WebViewActivity"
+        <activity android:name="com.avinash.syncopyproject.WebViewActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".GithubRepoActivity"
+        <activity android:name="com.avinash.syncopyproject.GithubRepoActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".AboutCreatorActivity"
+        <activity android:name="com.avinash.syncopyproject.AboutCreatorActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".AboutAppActivity"
+        <activity android:name="com.avinash.syncopyproject.AboutAppActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ConnectionDocsActivity"
+        <activity android:name="com.avinash.syncopyproject.ConnectionDocsActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".AddCommandActivity"
+        <activity android:name="com.avinash.syncopyproject.AddCommandActivity"
             android:screenOrientation="portrait"/>
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".ScreenshotActivity"
+        <activity android:name="com.avinash.syncopyproject.ScreenshotActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SearchIDActivity"
+        <activity android:name="com.avinash.syncopyproject.SearchIDActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".MyQRActivity"
+        <activity android:name="com.avinash.syncopyproject.MyQRActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ScanActivity"
+        <activity android:name="com.avinash.syncopyproject.ScanActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SyncopyActivity"
+        <activity android:name="com.avinash.syncopyproject.SyncopyActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".SplashScreen"
+        <activity android:name="com.avinash.syncopyproject.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme"
             android:label="Syncopé">
@@ -62,15 +62,15 @@
         </activity>
 
         <activity
-            android:name=".WelcomeScreen"
+            android:name="com.avinash.syncopyproject.WelcomeScreen"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".LoginActivity"
+        <activity android:name="com.avinash.syncopyproject.LoginActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SignupActivity"
+        <activity android:name="com.avinash.syncopyproject.SignupActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".EditProfileActivity"
+            android:name="com.avinash.syncopyproject.EditProfileActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
 
@@ -101,9 +101,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".Services.AutoService" />
+        <service android:name="com.avinash.syncopyproject.Services.AutoService" />
 
-        <receiver android:name=".NotificatoinReciever" />
+        <receiver android:name="com.avinash.syncopyproject.NotificatoinReciever" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"

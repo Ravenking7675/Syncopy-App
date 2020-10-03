@@ -245,6 +245,31 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         catch (NullPointerException e ){
             e.printStackTrace();
         }
+
+        DatabaseReference mRef3 = null;
+        try {
+            mRef3 = FirebaseDatabase.getInstance().getReference("clip_web").child(mAuth.getCurrentUser().getUid()).child("message");
+
+            mRef3.setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.i(TAG, "onComplete: SUCCESSFULLY SENT");
+                        try {
+                            Log.i(TAG, "onComplete : SENT PC CLIP TO PC");
+                        }catch (NullPointerException e){
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Log.i(TAG, "FAILED TO SEND CLIP : " + task.getException());
+                    }
+                }
+            });
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
     }
 
 }
