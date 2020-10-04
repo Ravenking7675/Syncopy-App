@@ -114,7 +114,7 @@
         android:layout_height="56dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="64dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/search_box"
         android:elevation="2dp"
         android:ems="10"
@@ -123,10 +123,10 @@
         android:inputType="textShortMessage|textNoSuggestions|text"
         android:paddingStart="50dp"
         android:paddingTop="5dp"
-        android:paddingEnd="100dp"
+        android:paddingEnd="24dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#A6FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/searchB_search"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
@@ -145,7 +145,7 @@
         android:id="@+id/searchB_search"
         android:layout_width="81dp"
         android:layout_height="32dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/button_rounded"
         android:clickable="true"
         android:elevation="20dp"
@@ -164,7 +164,7 @@
         android:textSize="14sp"
         android:tooltipText="Search"
         app:layout_constraintBottom_toBottomOf="@+id/searchClipT"
-        app:layout_constraintEnd_toEndOf="@+id/searchClipT"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/searchClipT"
         app:rippleColor="@color/box_border" />
 

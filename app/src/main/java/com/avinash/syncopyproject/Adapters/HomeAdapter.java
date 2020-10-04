@@ -111,10 +111,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                     return true;
                 }
             });
-
         }
-
-
     }
 
     @Override
@@ -176,21 +173,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             map.put("history", false);
         else
             map.put("history", true);
-
-//        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("clip").child(mAuth.getCurrentUser().getUid());
-//
-//        mRef.push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                if(task.isSuccessful()){
-//                    Log.i(TAG, "onComplete: SUCCESSFULLY SENT");
-//                    Toast.makeText(mContext, "clip send successfully", Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-//                    Log.i(TAG, "FAILED TO SEND CLIP : "+task.getException());
-//                }
-//            }
-//        });
 
         try {
 

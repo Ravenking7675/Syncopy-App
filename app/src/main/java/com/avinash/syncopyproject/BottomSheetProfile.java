@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.avinash.syncopyproject.Fragments.HomeFragment;
+import com.avinash.syncopyproject.Services.AutoService;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -92,6 +93,7 @@ public class BottomSheetProfile  extends BottomSheetDialogFragment {
     {
 
 
+
         // Create an alert builder
         AlertDialog.Builder builder
                 = new AlertDialog.Builder(getContext());
@@ -134,6 +136,9 @@ public class BottomSheetProfile  extends BottomSheetDialogFragment {
 
         try {
             getContext().getSharedPreferences(HomeFragment.SHARED_PREF, Context.MODE_PRIVATE).edit().clear().apply();
+
+            Intent service = new Intent(getActivity(), AutoService.class);
+            getContext().stopService(service);
 
             Log.i(TAG, "logoutUser: LOGGING OUT");
 
